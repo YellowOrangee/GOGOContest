@@ -6,43 +6,185 @@
         <el-row class="search">
           <el-col :span="16" :offset="1">
             <div>
-              <el-input placeholder="请输入内容"></el-input>
+              <el-input placeholder="请输入内容" v-model="content" clearable></el-input>
             </div>
           </el-col>
-            <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+        </el-row>
+
+        <!-- 比赛 -->
+        <el-row :gutter="2">
+          <el-col :span="7" :offset="2" class="title1">配置比赛信息</el-col>
+        </el-row>
+
+        <el-row :gutter="0">
+          <el-col :span="5" :offset="2" class="time1">报名时间：</el-col>
+          <el-col :span="3">
+            <div class="datePicker">
+              <el-date-picker
+                v-model="value1"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                size="mini"
+              >
+              </el-date-picker>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="0" justify="space-around" class="menu">
+          <el-col :span="6" :offset="5" class="a">
+            <div>
+              <el-dropdown size="small" split-button type="primary">
+                竞赛类型
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>全部</el-dropdown-item>
+                  <el-dropdown-item>工科</el-dropdown-item>
+                  <el-dropdown-item>理科</el-dropdown-item>
+                  <el-dropdown-item>文科</el-dropdown-item>
+                  <el-dropdown-item>商科</el-dropdown-item>
+                  <el-dropdown-item>其他</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </el-col>
+
           <el-col :span="6" :offset="0">
             <div>
+              <el-dropdown size="small" split-button type="primary">
+                竞赛级别
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>全部</el-dropdown-item>
+                  <el-dropdown-item>校级</el-dropdown-item>
+                  <el-dropdown-item>市级</el-dropdown-item>
+                  <el-dropdown-item>省级</el-dropdown-item>
+                  <el-dropdown-item>全国性</el-dropdown-item>
+                  <el-dropdown-item>全球性</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </el-col>
+        </el-row>
+        <!--组队  -->
+        <el-row :gutter="2">
+          <el-col :span="7" :offset="2" class="title2">配置组队信息</el-col>
+        </el-row>
+
+        <el-row :gutter="0" class="information">
+          <el-col :span="5" :offset="2" class="time1">报名时间：</el-col>
+          <el-col :span="3">
+            <div class="datePicker">
+              <el-date-picker
+                v-model="value2"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                size="mini"
+              >
+              </el-date-picker>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="0" justify="space-around" class="menu">
+          <el-col :span="6" :offset="5" class="a">
+            <div>
+              <el-dropdown size="small" split-button type="primary">
+                学历要求
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>本科</el-dropdown-item>
+                  <el-dropdown-item>研究生</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </el-col>
+
+          <el-col :span="6" :offset="0">
+            <div>
+              <el-dropdown size="small" split-button type="primary">
+                竞赛级别
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>全部</el-dropdown-item>
+                  <el-dropdown-item>校级</el-dropdown-item>
+                  <el-dropdown-item>市级</el-dropdown-item>
+                  <el-dropdown-item>省级</el-dropdown-item>
+                  <el-dropdown-item>全国性</el-dropdown-item>
+                  <el-dropdown-item>全球性</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
           </el-col>
         </el-row>
       </el-aside>
 
       <!-- 右侧 -->
-      <el-main>
-
-      </el-main>
+      <el-main> </el-main>
     </el-container>
   </div>
 </template>
 
+<script>
+export default {
+  name: "ForumView",
+  data() {
+    return {
+      content:"",
+      value1: "",
+      value2: ""
+    };
+  },
+};
+</script>
+
 <style>
-.el-aside{
+.el-aside {
   height: 964px;
   line-height: 20px;
   background-color: rgba(255, 255, 255, 100);
   text-align: center;
 }
-.el-main{
-  background-color: #EFEFF4;
-  width: 931px;
+.search {
+  padding: 54px 0 39px 0;
 }
-.search{
-  padding: 54px 0;
+.title1 {
+  height: 35px;
+  color: rgba(16, 16, 16, 100);
+  font-size: 24px;
+  text-align: left;
+  font-family: SourceHanSansSC-bold;
+  font-weight: bold;
+}
+.time1 {
+  width: 90px;
+  height: 30px;
+  color: rgba(113, 107, 107, 100);
+  font-size: 18px;
+  text-align: left;
+  font-family: SourceHanSansSC-bold;
+  line-height: 30px;
+}
+.menu {
+  /* background-color: aqua; */
+  padding-top: 64px;
+}
+.title2 {
+  padding-top: 200px;
+  height: 35px;
+  color: rgba(16, 16, 16, 100);
+  font-size: 24px;
+  text-align: left;
+  font-family: SourceHanSansSC-bold;
+  font-weight: bold;
+}
+.information {
+  padding-top: 50px;
+}
+.el-main {
+  background-color: #efeff4;
+  width: 931px;
 }
 </style>
 
-<script>
-export default {
-  name: 'ForumView',
-}
-</script>
