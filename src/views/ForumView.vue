@@ -121,7 +121,128 @@
       </el-aside>
 
       <!-- 右侧 -->
-      <el-main> </el-main>
+      <el-main>
+        <el-row :gutter="0" class="mainContainer">
+          <el-col :span="22" :offset="1">
+            <el-card class="box-card" body-style="{
+            width: '807px';
+            height: '154px';
+            line-height: '20px';
+            border-radius: '4px 4px 4px 4px';
+            background-color: 'rgba(255, 255, 255, 100)';
+            text-align: 'center';
+            border: '1px solid rgba(25, 137, 250, 100)';
+            padding:'20px'
+          }">
+            <div class="box-card-content">
+              <img src="../assets/zt.jpg" alt="">
+              <div class="main">
+                <span>{{match[0].title}}</span>
+                <div class="content">
+                  {{match[0].content}}
+                </div>
+                </div>
+            </div>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row :gutter="0" class="mainContainer">
+          <el-col :span="22" :offset="1">
+            <el-card class="box-card" body-style="{
+            width: '807px';
+            height: '154px';
+            line-height: '20px';
+            border-radius: '4px 4px 4px 4px';
+            background-color: 'rgba(255, 255, 255, 100)';
+            text-align: 'center';
+            border: '1px solid rgba(25, 137, 250, 100)';
+            padding:'20px'
+          }">
+            <div class="box-card-content">
+              <img src="../assets/zt.jpg">
+              <div class="main">
+                <span>{{match[0].title}}</span>
+                <div class="content">
+                  {{match[0].content}}
+                </div>
+                </div>
+            </div>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row :gutter="0" class="mainContainer">
+          <el-col :span="22" :offset="1">
+            <el-card class="box-card" body-style="{
+            width: '807px';
+            height: '154px';
+            line-height: '20px';
+            border-radius: '4px 4px 4px 4px';
+            background-color: 'rgba(255, 255, 255, 100)';
+            text-align: 'center';
+            border: '1px solid rgba(25, 137, 250, 100)';
+            padding:'20px'
+          }">
+            <div class="box-card-content">
+              <img src="../assets/zt.jpg">
+              <div class="main">
+                <span>{{match[0].title}}</span>
+                <div class="content">
+                  {{match[0].content}}
+                </div>
+                </div>
+            </div>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row :gutter="0" class="mainContainer">
+          <el-col :span="22" :offset="1">
+            <el-card class="box-card" body-style="{
+            width: '807px';
+            height: '154px';
+            line-height: '20px';
+            border-radius: '4px 4px 4px 4px';
+            background-color: 'rgba(255, 255, 255, 100)';
+            text-align: 'center';
+            border: '1px solid rgba(25, 137, 250, 100)';
+            padding:'20px'
+          }">
+            <div class="box-card-content">
+              <img src="../assets/zt.jpg">
+              <div class="main">
+                <span>{{match[0].title}}</span>
+                <div class="content">
+                  {{match[0].content}}
+                </div>
+                </div>
+            </div>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row :gutter="0" class="mainContainer">
+          <el-col :span="22" :offset="1">
+            <el-card class="box-card" body-style="{
+            width: '807px';
+            height: '154px';
+            line-height: '20px';
+            border-radius: '4px 4px 4px 4px';
+            background-color: 'rgba(255, 255, 255, 100)';
+            text-align: 'center';
+            border: '1px solid rgba(25, 137, 250, 100)';
+            padding:'20px'
+          }">
+            <div class="box-card-content">
+              <img src="../assets/zt.jpg">
+              <div class="main">
+                <span>{{match[0].title}}</span>
+                <div class="content">
+                  {{match[0].content}}
+                </div>
+                </div>
+            </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -133,7 +254,13 @@ export default {
     return {
       content:"",
       value1: "",
-      value2: ""
+      value2: "",
+      // 图片引用有问题
+      match:[
+        {src:'src/assets/zt.jpg',title:'标题',content:'团队简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
+        {src:'src/assets/zt.jpg',title:'标题',content:'团队简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
+        {src:'src/assets/zt.jpg',title:'标题',content:'团队简介---------------------------------------------------------------------------------------------------------------------------------------------------'}
+      ]
     };
   },
 };
@@ -185,6 +312,36 @@ export default {
 .el-main {
   background-color: #efeff4;
   width: 931px;
+}
+.el-main .mainContainer{
+  padding: 20px 0;
+}
+.el-main img{
+  width: 137px;
+  height: 109px;
+}
+.el-main .box-card-content{
+  display: flex;
+}
+.box-card-content span{
+  width: 32px;
+  height: 16px;
+  color: rgba(96, 98, 102, 100);
+  font-size: 16px;
+  text-align: left;
+  font-family: Helvetica-regular;
+}
+.box-card-content .main{
+  padding: 0 20px ;
+}
+.content{
+  padding-top: 14px;
+  width: 573px;
+  height: 64px;
+  color: rgba(144, 147, 153, 100);
+  font-size: 14px;
+  text-align: left;
+  font-family: Helvetica-regular;
 }
 </style>
 
