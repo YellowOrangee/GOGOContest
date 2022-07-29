@@ -2,7 +2,7 @@
   <div class="main">
     <div class="topContainer">
       <div class="topContainer-left">
-        <img src="../assets/zt.jpg" alt="" class="portrait">
+        <img :src="require('../assets/'+user.picture)" alt="" class="portrait">
         <div class="information">
           <div><span>账号: </span><span>{{user.account}}</span></div>
           <div><span>用户昵称：</span><span>{{user.id}}</span></div>
@@ -62,6 +62,7 @@ export default {
   data() {
     return {
       user:{
+        picture:'zt.jpg',
         account:'23113241',
         id:'汪汪大队',
         name:'XXX',
