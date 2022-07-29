@@ -136,7 +136,7 @@
           }">
             <div class="box-card-content">
               <img src="../assets/zt.jpg" alt="">
-              <div class="main">
+              <div class="main1">
                 <span>{{match[0].title}}</span>
                 <div class="content">
                   {{match[0].content}}
@@ -159,8 +159,8 @@
             padding:'20px'
           }">
             <div class="box-card-content">
-              <img src="../assets/zt.jpg">
-              <div class="main">
+              <img src="../assets/zt.jpg" alt="">
+              <div class="main1">
                 <span>{{match[0].title}}</span>
                 <div class="content">
                   {{match[0].content}}
@@ -183,8 +183,8 @@
             padding:'20px'
           }">
             <div class="box-card-content">
-              <img src="../assets/zt.jpg">
-              <div class="main">
+              <img src="../assets/zt.jpg" alt="">
+              <div class="main1">
                 <span>{{match[0].title}}</span>
                 <div class="content">
                   {{match[0].content}}
@@ -207,8 +207,8 @@
             padding:'20px'
           }">
             <div class="box-card-content">
-              <img src="../assets/zt.jpg">
-              <div class="main">
+              <img src="../assets/zt.jpg" alt="">
+              <div class="main1">
                 <span>{{match[0].title}}</span>
                 <div class="content">
                   {{match[0].content}}
@@ -231,8 +231,8 @@
             padding:'20px'
           }">
             <div class="box-card-content">
-              <img src="../assets/zt.jpg">
-              <div class="main">
+              <img src="../assets/zt.jpg" alt="">
+              <div class="main1">
                 <span>{{match[0].title}}</span>
                 <div class="content">
                   {{match[0].content}}
@@ -267,11 +267,15 @@ export default {
 </script>
 
 <style>
+.el-container{
+  height: 900px;
+}
 .el-aside {
-  height: 964px;
+  height: 900px;
   line-height: 20px;
   background-color: rgba(255, 255, 255, 100);
   text-align: center;
+  overflow-x: hidden; 
 }
 .search {
   padding: 54px 0 39px 0;
@@ -331,7 +335,7 @@ export default {
   text-align: left;
   font-family: Helvetica-regular;
 }
-.box-card-content .main{
+.box-card-content .main1{
   padding: 0 20px ;
 }
 .content{
