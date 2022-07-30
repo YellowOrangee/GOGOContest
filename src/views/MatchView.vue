@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 顶部的轮播图 -->
-    <el-carousel :interval="4000" type="card" height="300px">
+    <el-carousel :interval="4000" type="card" height="300px" autoplay>
       <el-carousel-item v-for="item in imgs" :key="item">
         <img :src="require('../assets/'+item)" alt="">
       </el-carousel-item>
