@@ -5,10 +5,10 @@
 
 <mapper namespace="com.huang.dao.UserMapper">
 
-    <insert id="addUser" parameterType="user" >
-        insert into tb_users (u_name,u_password,u_email)
-        values (#{u_name},#{u_password},#{u_email})
 
+    <insert id="register" parameterType="string">
+        insert into tb_users (u_name,u_password,u_email)
+        values (#{name},#{password},#{email})
     </insert>
 
 <!--    判断ID是否可用-->
@@ -19,33 +19,44 @@
 
 <!--    判断用户名是否可用-->
     <select id="queryUserByName" resultType="user">
-        select * from tb_users where u_name=#{name}
+        select * from tb_users
+        where u_name=#{name}
+    </select>
+
+    <!--    判断用户名是否可用-->
+    <select id="judgeEmail" resultType="string">
+        select u_email from tb_users
+        where u_email=#{email}
     </select>
 
     <!--    判断用户身份-->
     <select id="findIdentity" resultType="string">
-        select u_identity from tb_users where u_name=#{name}
+        select u_identity from tb_users
+        where u_name=#{name}
     </select>
 
 <!--    用户登录-->
     <select id="Login" resultType="user">
-        select * from tb_users where u_name=#{name} and u_password=#{password}
+        select * from tb_users
+        where u_name=#{name} and u_password=#{password}
     </select>
 
 <!--    管理员登录-->
     <select id="adminLogin" resultType="admin">
-        select * from tb_admin where ad_name=#{name} and ad_pwd=#{password}
+        select * from tb_admin
+        where ad_name=#{name} and ad_pwd=#{password}
     </select>
 
-
-
-
-
-
-
-
-
-
-
+<!--    修改用户信息-->
+    <update id="updateUserInfo" parameterType="map">
+        UPDATE tb_users SET
+                            u_sex=#{sex},
+                            u_phone=#{phone},
+                            u_contactInfo=#{contactInfo},
+                            u_school=#{school},
+                            u_major=#{major},
+                            u_personalInfo=#{personalInfo},
+        where u_name =#{name}
+    </update>
 
 </mapper>

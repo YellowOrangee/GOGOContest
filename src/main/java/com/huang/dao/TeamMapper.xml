@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.huang.dao.TeamMapper">
+    <insert id="addTeam" parameterType="map">
+        insert into tb_team (tm_captain,tm_ctime,tm_demand,tm_count,tm_status,tm_type)
+        values (#{captain},#{ctime},#{demand},#{count},#{status},#{type})
+    </insert>
+
+</mapper>

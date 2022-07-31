@@ -17,6 +17,11 @@
         <property name="userMapper" ref="userMapper"/>
     </bean>
 <!--配置管理员注入-->
+    <bean id="TeamServiceImpl" class="com.huang.service.TeamServiceImpl">
+        <property name="teamMapper" ref="teamMapper"/>
+    </bean>
+
+    <!--队伍信息-->
     <bean id="AdminServiceImpl" class="com.huang.service.AdminServiceImpl">
         <property name="adminMapper" ref="adminMapper"/>
     </bean>

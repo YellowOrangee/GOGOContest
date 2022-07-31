@@ -3,9 +3,12 @@ package com.huang.service;
 import com.huang.pojo.Admin;
 import com.huang.pojo.User;
 
+import java.util.Map;
+
+
 public interface UserService {
 
-    int addUser(User user);
+    int addUser(String name,String password,String email);
 
     User queryUserById( int id);
 
@@ -16,4 +19,8 @@ public interface UserService {
     Admin adminLogin(String name, String password);
 
     String findIdentity(String name);
+
+    int updateUserInfo(Map<String,Object> map);
+
+    String judgeEmail(String email);
 }

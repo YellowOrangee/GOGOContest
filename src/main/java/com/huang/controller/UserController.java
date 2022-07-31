@@ -27,11 +27,10 @@ public class UserController {
 
 
     @RequestMapping(value="/register")
-    public Map<String, Object> register(User user) {
+    public Map<String, Object> register(String name,String password,String email) {
         Map<String, Object> result = new HashMap<>();
-        System.out.println("user"+user);
 
-            if (userService.addUser(user) > 0) {
+            if (userService.addUser(name,password,email) > 0) {
                 result.put("success", true);
             }else {
             result.put("success", false);
@@ -43,7 +42,8 @@ public class UserController {
     public Map<String, Object> login(String name, String password, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
 
-//        System.out.println(userService.findIdentity(name));
+        System.out.println("name:"+name);
+        System.out.println("identity:"+userService.findIdentity(name));
 //        判断登录者身份
         if("1".equals(userService.findIdentity(name))){
 //           进行普通用户登录
@@ -106,19 +106,80 @@ public class UserController {
         return result;
     }
 
+    //    判断邮箱是否可用
+    @RequestMapping(value="/judgeEmail")
+    public Map<String, Object> judgeEmail(String email) {
+        Map<String, Object> result = new HashMap<>();
+
+        //判断用户名是否已存在
+        System.out.println(email);
+        String resultEmail = userService.judgeEmail(email);
+        System.out.println(resultEmail);
+        if (resultEmail== null) {
+            result.put("success",true);
+        }
+        else if(resultEmail != null){
+            result.put("msg", "邮箱"+resultEmail+"已被注册! 请修改后重试!");
+        }
+        return result;
+    }
+
 
 //    用户个人信息界面,修改或填写个人信息
     @RequestMapping("/setInfo")
-    public String setInfo(HttpServletRequest request){
-        List<User> list =new ArrayList<>();
+    public Map<String,Object> setInfo(String sex,String phone,String contactInfo,String school,
+                          String major,String personalInfo,HttpServletRequest request){
 
+        //        获取当前用户session信息
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("currentUser");
-        list.add(currentUser);
-        System.out.println("user:"+currentUser);
+        String name=currentUser.getU_name();
+        System.out.println(name);
+
+//        封装参数
+        Map<String,Object> map=new HashMap<>();
+        map.put("sex",sex);
+        map.put("phone",phone);
+        map.put("contactInfo",contactInfo);
+        map.put("school",school);
+        map.put("major",major);
+        map.put("personalInfo",personalInfo);
+        map.put("name",name);
+
+        System.out.println(map);
+
+//        修改用户信息
+        int flag=userService.updateUserInfo(map);
+
+//        向前端返回修改是否成功信息
+        Map<String,Object> result=new HashMap<>();
+        if(flag > 0){
+            result.put("success",true);
+        }else{
+            result.put("success",false);
+        }
+        return result;
+    }
+
+//    展示个人信息
+@RequestMapping("/showInfo")
+public String showInfo(HttpServletRequest request){
+
+//       获取当前用户session信息
+    HttpSession session = request.getSession();
+    User currentUser = (User) session.getAttribute("currentUser");
+    String name=currentUser.getU_name();
+    System.out.println(name);
+
+    User showUser = userService.queryUserByName(name);
+
+//        将用户信息放入list集合转为Json字符串
+    List<User> list =new ArrayList<>();
+    list.add(showUser);
+    System.out.println("user:"+showUser);
 //        使用fastJSON 将user对象转换为JSON字符串
 //        return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue); //显示值为空的字段 name:null
 //        显示空字符串,并将null换为 "" 输出
-        return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
-    }
+    return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
+}
 }

@@ -15,11 +15,11 @@ public class User {
     private String u_password;
     private String u_email;
     private String u_sex;
-    private int u_phone;
+    private String u_phone;
     private String u_contactInfo;
     private String u_school;
     private String u_major;
-    private String u_personalProfile;
+    private String u_personalInfo;
     private String u_identity;
 
 
