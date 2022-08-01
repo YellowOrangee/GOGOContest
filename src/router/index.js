@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import ForumView from '../views/ForumView.vue'
 import IndividualView from '../views/IndividualView.vue'
 import MatchView from '../views/MatchView.vue'
+import LoginView from "../views/login.vue";
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
     name: 'individual',
     component: IndividualView
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  }
 ]
 
 const router = new VueRouter({
