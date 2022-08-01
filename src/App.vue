@@ -64,8 +64,8 @@ export default {
   font-family: SourceHanSansSC-regular;
 }
 a.router-link-active.router-link-exact-active {
-  font-size: 20px;
-  padding-bottom: 12px;
+  font-size: 16px;
+  padding-bottom: 5px;
   border-bottom: 2px #3894ff solid;
   font-weight: bold;
 }

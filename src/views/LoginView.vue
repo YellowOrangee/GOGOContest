@@ -50,9 +50,6 @@
                     >
                   </el-col>
                   <el-col style="text-align: right; width: 150px">
-                    <el-button type="text" @click="toForgetPage2"
-                      >忘记密码(弹窗版)</el-button
-                    >
                   </el-col>
                   <el-col style="text-align: right; width: 80px; float: right">
                     <el-button type="text" @click="toSignUpPage"
@@ -154,6 +151,7 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import {login} from '@/api/index'
 export default {
   computed: {
     ...mapGetters(["checkLogin"]),
@@ -243,54 +241,11 @@ export default {
     signInSubmit() {
       this.$refs["signInForm"].validate((valid) => {
         if (valid) {
-          // 可以用axios
-          // axios.post('http://localhost:8080/SSM__04__SSC/user/login(api/user/login)', {
-          //   Name: this.signInForm.userName,
-          //   Password: this.signInForm.password
-          // }).then(res => {
-          //   console.log(res);
-          //   if (res.data === "success") {
-          //     this.switchLoginState();  // 切换登录状态
-          //     this.$router.replace("/");
-          //     this.$message({ message: '登录成功', type: 'success' });
-          //   } else if(res.data === "error") {
-          //     this.$message({ message: '登录失败，没注册/未知原因', type: 'warning' });
-          //   }
-          // });
-          // 也可以用Ajax
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-              console.log("POST:", xhr.responseText);
-              /* 这里可以写登录成功后的代码 */
-              this.switchLoginState(); // 切换登录状态
-              this.$router.replace("/");
-              this.$message({ message: "登录成功", type: "success" });
-            } else {
-              this.$message({
-                message: "登录失败，没注册/未知原因",
-                type: "warning",
-              });
-            }
-          };
-          xhr.open(
-            "POST",
-            "http://localhost:8080/SSM__04__SSC/user/login(api/user/login)",
-            true
-          );
-          xhr.setRequestHeader(
-            "Content-Type",
-            "application/json;charset=utf-8"
-          );
-          xhr.send(
-            '{"Name":' +
-              this.signInForm.userName +
-              ',"Password":' +
-              this.signInForm.password +
-              "}"
-          );
+          login(this.$data.signInForm).then(res=>{
+            console.log("登陆的返回",res)
+          })
         } else {
-          console.log("请输入正确的用户名和密码");
+          console.log("请输入正确的用户名和密码",this.$api);
           return false;
         }
       });
@@ -335,31 +290,6 @@ export default {
       this.signUpPage = false;
       this.forgetPage = true;
     },
-    // 忘记密码2（弹窗版）
-    toForgetPage2() {
-      this.$prompt("请输入注册邮箱", "找回密码", {
-        confirmButtonText: "发送验证信息",
-        cancelButtonText: "取消",
-        inputPattern:
-          /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-        inputErrorMessage: "邮箱格式不正确",
-      })
-        .then(({ value }) => {
-          /* 这里可以写发邮箱的代码 */
-          this.$message({
-            message:
-              value +
-              "发送验证信息成功，三个工作日内将会收到验证信息，请耐心等待",
-            type: "success",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "取消",
-          });
-        });
-    },
     // 我是新用户
     toSignUpPage() {
       this.signInPage = false;
@@ -373,7 +303,7 @@ export default {
 <style>
 /* 背景 */
 .login {
-  width: 100%;
+  width: 1440px;
   min-height: 100vh;
   background: linear-gradient(
     to right,
