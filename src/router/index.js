@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import ForumView from '../views/ForumView.vue'
 import IndividualView from '../views/IndividualView.vue'
 import MatchView from '../views/MatchView.vue'
-import LoginView from "../views/login.vue";
+import LoginView from "@/views/LoginView";
 
 Vue.use(VueRouter)
 
