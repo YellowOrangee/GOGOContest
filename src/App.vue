@@ -10,7 +10,8 @@
             <div class="route">
               <router-link to="/">组队论坛</router-link>
               <router-link to="/match">比赛信息</router-link>
-              <router-link to="/individual">个人主页</router-link>
+              <router-link to="/individual" v-if=checkLogin>个人主页</router-link>
+              <router-link to="/login" v-if=!checkLogin>登录/注册</router-link>
             </div>
           </el-col>
         </el-row>
@@ -21,6 +22,15 @@
     </el-container>
   </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex';
+export default {
+  computed: {
+    ...mapGetters(['checkLogin'])
+  },
+}
+</script>
 
 <style>
 #app {
@@ -63,5 +73,13 @@ a.router-link-active.router-link-exact-active {
   width: 188px;
   height: 43px;
   margin-top: 10px;
+}
+@font-face {
+  font-family: 庞门正道粗书体;
+  src: url(./font/庞门正道粗书体6.0.ttf);
+}
+@font-face {
+  font-family: 方正楷体;
+  src: url(./font/FZKTJW.ttf);
 }
 </style>
