@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <!-- 左侧 -->
-      <el-aside width="509px">
+      <el-aside width="509px" style="height: 1000px;">
         <el-row class="search">
           <el-col :span="16" :offset="1">
             <div>
@@ -121,7 +121,7 @@
       </el-aside>
 
       <!-- 右侧 -->
-      <el-main>
+      <el-main style="height: 1000px;">
         <el-row :gutter="0" class="mainContainer" v-for="(item, index) in match" :key="index">
           <el-col :span="22" :offset="1">
             <el-card class="box-card" body-style="{
@@ -172,9 +172,10 @@ export default {
 </script>
 
 <style>
-.el-container{
+/* 修改是因为这里定义900px会影响其他页面，一旦超过900，背景色就会断层（看完就把这几行删了吧） */
+/* .el-container{
   height: 900px;
-}
+} */
 .el-aside {
   height: 900px;
   line-height: 20px;
