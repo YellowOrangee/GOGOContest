@@ -152,6 +152,9 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import {login} from '@/api/index'
+import { register } from "@/api/index";
+import { findUserByName } from "@/api/index";
+// import router from '@/router';
 export default {
   computed: {
     ...mapGetters(["checkLogin"]),
@@ -237,18 +240,43 @@ export default {
     ...mapMutations({
       switchLoginState: "SWITCH_LOGIN_STATE",
     }),
+    // 返回登录
+    toSignInPage() {
+      this.forgetPage = false;
+      this.signUpPage = false;
+      this.signInPage = true;
+    },
+    // 忘记密码
+    toForgetPage() {
+      this.signInPage = false;
+      this.signUpPage = false;
+      this.forgetPage = true;
+    },
+    // 我是新用户
+    toSignUpPage() {
+      this.signInPage = false;
+      this.forgetPage = false;
+      this.signUpPage = true;
+    },
     // 登录
     signInSubmit() {
-      this.$refs["signInForm"].validate((valid) => {
-        if (valid) {
-          login(this.$data.signInForm).then(res=>{
-            console.log("登陆的返回",res)
+      // this.$refs["signInForm"].validate((valid) => {
+      //   if (valid) {
+      //     login({
+      //       "name":this.$data.signInForm.userName,
+      //       "&password":this.$data.signInForm.password
+      //     }).then(res=>{
+      //       router.push({path:'/'});
+      //       console.log("登陆的返回",res,this.$data.signInForm)
+      //     })
+      //   } else {
+      //     console.log("请输入正确的用户名和密码");
+      //     return false;
+      //   }
+      // });
+      login({name:"1",password:"1"}).then(res=>{
+            console.log("登陆的返回",res,this.$data.signInForm)
           })
-        } else {
-          console.log("请输入正确的用户名和密码",this.$api);
-          return false;
-        }
-      });
     },
     // 忘记密码发送验证信息
     sendCheckInformation() {
@@ -270,32 +298,21 @@ export default {
     signUpSubmit() {
       this.$refs["signUpForm"].validate((valid) => {
         if (valid) {
-          /* 这里可以写注册的代码 */
-          this.$message({ message: "注册成功", type: "success" });
+          findUserByName(this.$data.signUpForm.signUpName).then(res=>{
+            console.log(res)
+          })
+          register(this.$data.signUpForm).then(res=>{
+            console.log(res)
+            this.$message({ message: "注册成功", type: "success" });
+            this.toSignInPage();
+          })
         } else {
           console.log("请按要求填写");
           return false;
+          
         }
       });
-    },
-    // 返回登录
-    toSignInPage() {
-      this.forgetPage = false;
-      this.signUpPage = false;
-      this.signInPage = true;
-    },
-    // 忘记密码
-    toForgetPage() {
-      this.signInPage = false;
-      this.signUpPage = false;
-      this.forgetPage = true;
-    },
-    // 我是新用户
-    toSignUpPage() {
-      this.signInPage = false;
-      this.forgetPage = false;
-      this.signUpPage = true;
-    },
+    }
   },
 };
 </script>
