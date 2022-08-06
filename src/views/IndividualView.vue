@@ -16,7 +16,7 @@
 
     <div class="bottonContainer">
       <div class="bottonContainer-main">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
           <el-tab-pane label="基本信息" name="first">
             <el-row :gutter="20">
               <el-col :span="12" :offset="0">姓名：{{user.name}}</el-col>

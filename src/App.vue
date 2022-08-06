@@ -8,10 +8,12 @@
           /></el-col>
           <el-col :span="8" :offset="11">
             <div class="route">
-              <router-link to="/">组队论坛</router-link>
-              <router-link to="/match">比赛信息</router-link>
-              <router-link to="/individual" v-if=checkLogin>个人主页</router-link>
-              <router-link to="/login" v-if=!checkLogin>登录/注册</router-link>
+              <router-link to="/">比赛信息</router-link>
+              <router-link to="/forum">组队论坛</router-link>
+              <router-link to="/individual">个人主页</router-link>
+              <router-link to="/message">消息通知</router-link>
+              <router-link to="/setup">设置</router-link>
+              <router-link to="/individual"><img src="./assets/zt.jpg" alt="" class="portrait"></router-link>
             </div>
           </el-col>
         </el-row>
@@ -24,11 +26,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 export default {
-  computed: {
-    ...mapGetters(['checkLogin'])
-  },
+
 }
 </script>
 
@@ -81,5 +80,10 @@ a.router-link-active.router-link-exact-active {
 @font-face {
   font-family: 方正楷体;
   src: url(./font/FZKTJW.ttf);
+}
+.portrait{
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
 }
 </style>

@@ -5,7 +5,6 @@ import { Message } from 'element-ui';
 let loadingObj = null
 const Service = axios.create({
     baseURL:'/api',
-    // baseURL:'http://localhost:8080/SSM__04__GGC_2/',
     timeout:5000
 });
 //请求拦截

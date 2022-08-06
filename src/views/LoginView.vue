@@ -113,6 +113,7 @@
                   placeholder="请输入用户名"
                   v-model="signUpForm.signUpName"
                   clearable
+                  @blur="findUserByName"
                 ></el-input>
               </el-form-item>
               <el-form-item label="密码：" prop="signUpPass">
@@ -154,6 +155,8 @@ import { mapGetters, mapMutations } from "vuex";
 import {login} from '@/api/index'
 import { register } from "@/api/index";
 import { findUserByName } from "@/api/index";
+import { Message } from 'element-ui';
+
 // import router from '@/router';
 export default {
   computed: {
@@ -260,23 +263,17 @@ export default {
     },
     // 登录
     signInSubmit() {
-      // this.$refs["signInForm"].validate((valid) => {
-      //   if (valid) {
-      //     login({
-      //       "name":this.$data.signInForm.userName,
-      //       "&password":this.$data.signInForm.password
-      //     }).then(res=>{
-      //       router.push({path:'/'});
-      //       console.log("登陆的返回",res,this.$data.signInForm)
-      //     })
-      //   } else {
-      //     console.log("请输入正确的用户名和密码");
-      //     return false;
-      //   }
-      // });
-      login({name:"1",password:"1"}).then(res=>{
-            console.log("登陆的返回",res,this.$data.signInForm)
+      this.$refs["signInForm"].validate((valid) => {
+        if (valid) {
+            login({"name":this.$data.signInForm.userName,"password":this.$data.signInForm.password}).then(res=>{
+            console.log("登陆的返回",res)
+            localStorage.setItem("uInfo",JSON.stringify(this.$data.signInForm))
           })
+        } else {
+          console.log("请输入正确的用户名和密码");
+          return false;
+        }
+      });
     },
     // 忘记密码发送验证信息
     sendCheckInformation() {
@@ -294,14 +291,29 @@ export default {
         }
       });
     },
+    //检测用户名是否已用
+    findUserByName(){
+      findUserByName(this.$data.signUpForm.signUpName).then(res=>{
+          Message({
+          duration:2000,
+          message: res.success,
+          type: 'success'
+          });
+            console.log(res)
+          }).catch(err=>{
+            Message({
+          duration:2000,
+          message: err.success,
+          type: 'error'
+          });
+          console.log(err)
+          })
+    },
     // 注册
     signUpSubmit() {
       this.$refs["signUpForm"].validate((valid) => {
         if (valid) {
-          findUserByName(this.$data.signUpForm.signUpName).then(res=>{
-            console.log(res)
-          })
-          register(this.$data.signUpForm).then(res=>{
+          register({"name":this.$data.signUpForm.signUpName,"password":this.$data.signUpForm.signUpPass,"email":this.$data.signUpForm.signUp_email}).then(res=>{
             console.log(res)
             this.$message({ message: "注册成功", type: "success" });
             this.toSignInPage();
@@ -309,7 +321,6 @@ export default {
         } else {
           console.log("请按要求填写");
           return false;
-          
         }
       });
     }
