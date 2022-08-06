@@ -157,7 +157,7 @@ import { register } from "@/api/index";
 import { findUserByName } from "@/api/index";
 import { Message } from 'element-ui';
 
-// import router from '@/router';
+import router from '@/router';
 export default {
   computed: {
     ...mapGetters(["checkLogin"]),
@@ -268,6 +268,7 @@ export default {
             login({"name":this.$data.signInForm.userName,"password":this.$data.signInForm.password}).then(res=>{
             console.log("登陆的返回",res)
             localStorage.setItem("uInfo",JSON.stringify(this.$data.signInForm))
+            router.push({path:"/"});
           })
         } else {
           console.log("请输入正确的用户名和密码");
