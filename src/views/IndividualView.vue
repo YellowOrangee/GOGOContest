@@ -16,7 +16,7 @@
 
     <div class="bottonContainer">
       <div class="bottonContainer-main">
-        <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
+        <el-tabs v-model="activeName" @tab-click="handleClick" stretch lazy>
           <el-tab-pane label="基本信息" name="first">
             <el-row :gutter="20">
               <el-col :span="12" :offset="0">姓名：{{user.name}}</el-col>
@@ -44,10 +44,72 @@
             </el-row>
           </el-tab-pane>
           <el-tab-pane label="组队信息" name="second">
-
+            <div class="container">
+              <div class="listContainer">
+                <div class="item">
+                  <div class="tag"><el-tag type="warning" >比赛信息</el-tag></div>
+                  <div class="title">标题</div>
+                  <img src="../assets/zt.jpg" alt="" class="matchImg">
+                  <div class="content">
+                    <p>简介---------------------------------------------------------------------------------------------------------------------------------------------------</p>
+                  </div>
+                </div> 
+                <div class="item">
+                  <div class="tag"><el-tag type="danger" >组队信息</el-tag></div>
+                  <div class="title">标题</div>
+                  <img src="../assets/zt.jpg" alt="" class="matchImg">
+                  <div class="content">
+                    <p>简介---------------------------------------------------------------------------------------------------------------------------------------------------</p>
+                  </div>
+                </div> 
+                <div class="item">
+                  <div class="tag"><el-tag type="warning" >比赛信息</el-tag></div>
+                  <div class="title">标题</div>
+                  <img src="../assets/zt.jpg" alt="" class="matchImg">
+                  <div class="content">
+                    <p>简介---------------------------------------------------------------------------------------------------------------------------------------------------</p>
+                  </div>
+                </div> 
+              </div>
+              <el-pagination
+                layout="prev, pager, next"
+                :total="50" >
+              </el-pagination>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="消息通知" name="third">
-
+            <div class="container">
+              <div class="listContainer">
+                <div class="item">
+                  <div class="tag"><el-tag type="warning" >比赛信息</el-tag></div>
+                  <div class="title">标题</div>
+                  <img src="../assets/zt.jpg" alt="" class="matchImg">
+                  <div class="content">
+                    <p>简介---------------------------------------------------------------------------------------------------------------------------------------------------</p>
+                  </div>
+                </div> 
+                <div class="item">
+                  <div class="tag"><el-tag type="danger" >组队信息</el-tag></div>
+                  <div class="title">标题</div>
+                  <img src="../assets/zt.jpg" alt="" class="matchImg">
+                  <div class="content">
+                    <p>简介---------------------------------------------------------------------------------------------------------------------------------------------------</p>
+                  </div>
+                </div> 
+                <div class="item">
+                  <div class="tag"><el-tag type="danger" >组队信息</el-tag></div>
+                  <div class="title">标题</div>
+                  <img src="../assets/zt.jpg" alt="" class="matchImg">
+                  <div class="content">
+                    <p>简介---------------------------------------------------------------------------------------------------------------------------------------------------</p>
+                  </div>
+                </div> 
+              </div>
+              <el-pagination
+                layout="prev, pager, next"
+                :total="50" >
+              </el-pagination>
+            </div>
           </el-tab-pane>
       </el-tabs>
       </div>
@@ -83,6 +145,11 @@ export default {
       activeName:'first'
     }
   },
+  methods: {
+      handleClick(tab, event) {
+        console.log(tab, event);
+      }
+    }
 }
 </script>
 
@@ -189,5 +256,63 @@ export default {
   font-size: 20px;
   text-align: center;
   font-family: SourceHanSansSC-bold;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 1096px;
+  height: 400px;
+  line-height: 20px;
+  border-radius: 0px 0px 30px 30px;
+  background-color: rgba(239, 239, 244, 100);
+  color: rgba(16, 16, 16, 100);
+  font-size: 14px;
+  text-align: center;
+  font-family: Roboto;
+}
+.listContainer{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 1096px;
+  height: 400px;
+  line-height: 20px;
+  border-radius: 0px 0px 30px 30px;
+  background-color: rgba(239, 239, 244, 100);
+  color: rgba(16, 16, 16, 100);
+  font-size: 14px;
+  text-align: center;
+  font-family: Roboto;
+}
+.container .item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 341px;
+  height: 344px;
+  line-height: 20px;
+  border-radius: 4px 4px 4px 4px;
+  background-color: rgba(255, 255, 255, 100);
+  text-align: center;
+}
+.item .tag{
+  position: relative;
+  top: 12px;
+  right: -124px;
+}
+.item .matchImg{
+  width: 175px;
+  height: 126px;
+  padding: 10px 0;
+}
+.item .content{
+  width: 252px;
+  height: 64px;
+  color: rgba(144, 147, 153, 100);
+  font-size: 14px;
+  text-align: left;
+  font-family: Helvetica-regular;
 }
 </style>
