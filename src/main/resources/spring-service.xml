@@ -13,17 +13,24 @@
 
     <context:component-scan base-package="com.huang.service"/>
 
+<!--    配置用户-->
     <bean id="UserServiceImpl" class="com.huang.service.UserServiceImpl">
         <property name="userMapper" ref="userMapper"/>
     </bean>
-<!--配置管理员注入-->
+
+    <!--队伍信息-->
     <bean id="TeamServiceImpl" class="com.huang.service.TeamServiceImpl">
         <property name="teamMapper" ref="teamMapper"/>
     </bean>
 
-    <!--队伍信息-->
+    <!--配置管理员注入-->
     <bean id="AdminServiceImpl" class="com.huang.service.AdminServiceImpl">
         <property name="adminMapper" ref="adminMapper"/>
+    </bean>
+
+<!--    配置 论坛帖子 对象注入-->
+    <bean id="ForumServiceImpl" class="com.huang.service.ForumServiceImpl">
+        <property name="forumMapper" ref="forumMapper"/>
     </bean>
 
 <!--    配置事务管理器-->

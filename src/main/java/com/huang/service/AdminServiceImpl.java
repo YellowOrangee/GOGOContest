@@ -2,7 +2,6 @@ package com.huang.service;
 
 import com.huang.dao.AdminMapper;
 import com.huang.pojo.Admin;
-import com.huang.pojo.User;
 
 public class AdminServiceImpl implements AdminService{
 

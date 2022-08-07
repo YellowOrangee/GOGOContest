@@ -17,6 +17,18 @@
 <!--    静态资源默认servlet配置:避免加载其他资源-->
     <mvc:default-servlet-handler/>
 
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <!--声明类型转换-->
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 <!--    配置jsp显示ViewResolver视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 <!--        <property name="prefix" value="/WEB-INF/jsp/"/>-->

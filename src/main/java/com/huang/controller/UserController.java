@@ -5,13 +5,17 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.huang.pojo.Admin;
 import com.huang.pojo.User;
 import com.huang.service.UserService;
+import com.huang.utils.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +43,12 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public Map<String, Object> login(String name, String password, HttpServletRequest request) {
+    public Map<String, Object> login(String name, String password,String rememberMe, HttpServletRequest request,
+                                     HttpServletResponse response) throws UnsupportedEncodingException {
         Map<String, Object> result = new HashMap<>();
+
+        String userName=name;
+        String userPwd=password;
 
         System.out.println("name:"+name);
         System.out.println("identity:"+userService.findIdentity(name));
@@ -67,12 +75,19 @@ public class UserController {
             } else if (resultAdmin == null){
                 result.put("success",false );
             }
+
+//            三天免登录
+            //添加cookie
+            if (rememberMe != null) {
+                CookieUtil.addCookie(userName,name,response);
+                CookieUtil.addCookie(userPwd,password,response);
+            }
         }
         return result;
     }
 
 //    判断ID是否可用
-    @RequestMapping(value="/findUserById")
+    @RequestMapping(value="/findUserById",method = RequestMethod.GET)
     public Map<String, Object> findUserById(int id) {
         Map<String, Object> result = new HashMap<>();
 
@@ -89,7 +104,7 @@ public class UserController {
     }
 
 //    判断用户名是否可用
-    @RequestMapping(value="/findUserByName")
+    @RequestMapping(value="/findUserByName",method = RequestMethod.GET)
     public Map<String, Object> findUserByName(String name) {
         Map<String, Object> result = new HashMap<>();
 
@@ -107,7 +122,7 @@ public class UserController {
     }
 
     //    判断邮箱是否可用
-    @RequestMapping(value="/judgeEmail")
+    @RequestMapping(value="/judgeEmail",method = RequestMethod.GET)
     public Map<String, Object> judgeEmail(String email) {
         Map<String, Object> result = new HashMap<>();
 
@@ -161,25 +176,23 @@ public class UserController {
         return result;
     }
 
-//    展示个人信息
-@RequestMapping("/showInfo")
-public String showInfo(HttpServletRequest request){
+       //    展示个人信息
+       @RequestMapping("/showInfo")
+       public String showInfo(HttpServletRequest request){
+           Map<String,Object> result=new HashMap<>();
 
-//       获取当前用户session信息
-    HttpSession session = request.getSession();
-    User currentUser = (User) session.getAttribute("currentUser");
-    String name=currentUser.getU_name();
-    System.out.println(name);
+       //       获取当前用户session信息
+           HttpSession session = request.getSession();
+           User currentUser = (User) session.getAttribute("currentUser");
+           String name=currentUser.getU_name();
+           System.out.println(name);
 
-    User showUser = userService.queryUserByName(name);
+           User showUser = userService.queryUserByName(name);
 
-//        将用户信息放入list集合转为Json字符串
-    List<User> list =new ArrayList<>();
-    list.add(showUser);
-    System.out.println("user:"+showUser);
-//        使用fastJSON 将user对象转换为JSON字符串
-//        return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue); //显示值为空的字段 name:null
-//        显示空字符串,并将null换为 "" 输出
-    return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
-}
+       //        将用户信息放入list集合转为Json字符串
+           List<User> list =new ArrayList<>();
+           list.add(showUser);
+           System.out.println("user:"+showUser);
+           return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
+       }
 }

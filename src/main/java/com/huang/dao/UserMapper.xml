@@ -55,7 +55,7 @@
                             u_contactInfo=#{contactInfo},
                             u_school=#{school},
                             u_major=#{major},
-                            u_personalInfo=#{personalInfo},
+                            u_personalInfo=#{personalInfo}
         where u_name =#{name}
     </update>
 

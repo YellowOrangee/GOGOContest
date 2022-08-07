@@ -1,4 +1,4 @@
-//package com.huang.interceptor;
+package com.huang.interceptor;//package com.huang.interceptor;
 //
 //import org.springframework.web.servlet.HandlerInterceptor;
 //import org.springframework.web.servlet.ModelAndView;

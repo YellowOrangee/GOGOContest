@@ -13,6 +13,7 @@ import java.sql.Date;
 public class Team {
 
     private int tm_id;
+    private String tm_name;
     private String tm_captain;
     private Date tm_ctime;
     private String tm_demand;

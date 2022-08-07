@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.huang.dao.ForumMapper">
+<!--    sql片段:输出帖子信息-->
+    <sql id="select-forum">
+        f_id,f_title,f_content,f_time,f_replay_time,f_click_time
+    </sql>
+
+    <insert id="addForum" parameterType="map">
+        insert into ssmproject.tb_forum (f_title,f_content,f_time,f_replay_time,f_click_time)
+        values (#{f_title},#{f_content},#{f_time},0,0)
+    </insert>
+
+    <update id="addClickTime">
+        update tb_forum set f_click_time=f_click_time+1 where f_id=#{id}
+    </update>
+
+    <select id="showForum" resultType="forum">
+        select
+        <include refid="select-forum"></include>
+        from tb_forum
+    </select>
+
+</mapper>

@@ -4,9 +4,53 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.huang.dao.TeamMapper">
+    <sql id="select-team">
+        tm_name,tm_captain,tm_ctime,tm_demand,tm_count,tm_status,tm_type
+    </sql>
+
+
     <insert id="addTeam" parameterType="map">
-        insert into tb_team (tm_captain,tm_ctime,tm_demand,tm_count,tm_status,tm_type)
-        values (#{captain},#{ctime},#{demand},#{count},#{status},#{type})
+        insert into tb_team (tm_name,tm_captain,tm_ctime,tm_demand,tm_count,tm_type)
+        values (#{name},#{captain},#{ctime},#{demand},#{count},#{type})
     </insert>
+
+    <!--    添加队员-->
+    <update id="addMember" parameterType="map">
+        update tb_members set
+        <if test="m_member1 == null">
+            tm_member1=#{memberName},
+        </if>
+        <if test="m_member2 == null">
+            tm_member2=#{memberName},
+        </if>
+        <if test="m_member3 == null">
+            tm_member3=#{memberName},
+        </if>
+        <if test="m_member4 == null">
+            tm_member4=#{memberName},
+        </if>
+        <if test="m_member5 == null">
+            tm_member5=#{memberName}
+        </if>
+        where m_name = #{teamName}
+    </update>
+
+    <!--    判断申请修改队伍信息人的生份-->
+    <select id="judgeIdentity" parameterType="map" resultType="string">
+        select tm_captain from tb_team where tm_id = #{id}
+    </select>
+
+    <!--    展示队伍信息-->
+    <select id="showTeamById" resultType="team">
+        select
+        <include refid="select-team"></include>
+        from tb_team
+        where tm_id = #{id}
+    </select>
+
+    <delete id="disbandTeam" parameterType="int">
+        DELETE FROM tb_team where tm_id=#{id}
+    </delete>
+
 
 </mapper>

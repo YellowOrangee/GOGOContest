@@ -18,8 +18,8 @@
         <property name="password" value="${jdbc.password}"/>
 
         <!--    c3p0连接池的私有属性-->
-        <property name="maxPoolSize" value="30"/>
-        <property name="minPoolSize" value="20"/>
+        <property name="maxPoolSize" value="200"/>
+        <property name="minPoolSize" value="10"/>
 
 <!--        当关闭连接后不自动提交事务-->
         <property name="autoCommitOnClose" value="false"/>
@@ -35,6 +35,20 @@
         <property name="dataSource" ref="dataSource"/>
 <!--        配置Mybatis全局配置文件mybatis-config-xml-->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
+
+        <!--分页-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <!--页号在合理值 0 - max-->
+                            <prop key="reasonable">true</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
 
 <!--    配置扫描Dao接口包,动态实现D奥接口注入到spring容器中-->
