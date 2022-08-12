@@ -19,11 +19,11 @@
         <el-tabs v-model="activeName" @tab-click="handleClick" stretch lazy>
           <el-tab-pane label="基本信息" name="first">
             <el-row :gutter="20">
-              <el-col :span="12" :offset="0">姓名：{{user.name}}</el-col>
-              <el-col :span="12" :offset="0">电话号码：{{user.phone}}</el-col>
+              <el-col :span="12" :offset="0">姓名：{{this.$store.state.user.userInfo.u_name}}</el-col>
+              <el-col :span="12" :offset="0">电话号码：{{this.$store.state.user.userInfo.u_phone}}</el-col>
             </el-row>
             <el-row :gutter="20">
-              <el-col :span="12" :offset="0">性别：{{user.sex}}</el-col>
+              <el-col :span="12" :offset="0">性别：{{this.$store.state.user.userInfo.u_sex}}</el-col>
               <el-col :span="12" :offset="0">QQ号：{{user.QQ}}</el-col>
             </el-row>
             <el-row :gutter="20">

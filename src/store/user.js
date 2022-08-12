@@ -15,8 +15,9 @@ const actions = {
   //获取个人信息的action
   async getUserInfo({commit}){
     let result = await showInfo();
-    if (result.code==200) {
-      commit('GETUSERINFO',result.data)
+    console.log(result)
+    if (result[0].u_id) {
+      commit('GETUSERINFO',result[0])
     }
   }
 };
