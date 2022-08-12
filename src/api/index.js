@@ -28,3 +28,10 @@ export const showInfo = ()=>Service({url:'/user/showInfo',method:'get'})
 //修改用户信息接口
 //   /user/setInfo  POST 参数：name 
 export const setInfo = (data)=>Service({url:`/user/setInfo?`,data,method:'post'})
+
+// 展示所有队伍的招募信息(无筛选条件)
+//  /teamForum/showAllForum/page    GET 参数： pageNum
+export const showAllForum = (data)=>Service({
+    url:`/teamForum/showAllForum/page?pageNum=${data}`,
+    method:'get'
+})

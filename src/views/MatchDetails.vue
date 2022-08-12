@@ -53,11 +53,11 @@
     <!-- 右下角 -->
     <div class="match_details_right">
       <div v-if=!collectionStatus>
-        <el-button type="primary" class="match_details_but" @click="clockCollection">点击收藏</el-button>
+        <el-button type="primary" class="match_details_but" @click="clickCollection">点击收藏</el-button>
         <i class="el-icon-star-on"></i>
       </div>
       <div v-if=collectionStatus>
-        <el-button type="primary" plain class="match_details_but" @click="clockCollection">点击取消收藏</el-button>
+        <el-button type="primary" plain class="match_details_but" @click="clickCollection">点击取消收藏</el-button>
         <i class="el-icon-star-on" style="color: gold;"></i>
       </div>
       <br><br>
@@ -110,7 +110,7 @@ export default {
     }
   },
   methods: {
-    clockCollection() {
+    clickCollection() {
       this.collectionStatus=!this.collectionStatus;
     },
   }

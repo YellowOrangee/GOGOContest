@@ -7,6 +7,7 @@ import LoginView from "@/views/LoginView"
 import MessageView from '../views/MessageView.vue'
 import SetupView from '../views/Setup.vue'
 import MatchDetailsView from '../views/MatchDetails.vue'
+import TeamDetailsView from "@/views/TeamDetails";
 import user from '../store/user'
 
 Vue.use(VueRouter)
@@ -46,6 +47,11 @@ const routes = [
     path: '/matchDetails',
     name: 'matchDetails',
     component: MatchDetailsView
+  },
+  {
+    path: '/teamDetails',
+    name: 'teamDetails',
+    component: TeamDetailsView
   }
 ]
 

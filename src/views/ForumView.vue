@@ -122,28 +122,31 @@
 
       <!-- 右侧 -->
       <el-main style="height: 1000px;">
-        <el-row :gutter="0" class="mainContainer" v-for="(item, index) in match" :key="index">
+        <el-row :gutter="0" class="mainContainer" v-for="(item, index) in list" :key="index">
           <el-col :span="22" :offset="1">
-            <el-card class="box-card" body-style="{
-            width: '807px';
-            height: '154px';
-            line-height: '20px';
-            border-radius: '4px 4px 4px 4px';
-            background-color: 'rgba(255, 255, 255, 100)';
-            text-align: 'center';
-            border: '1px solid rgba(25, 137, 250, 100)';
-            padding:'20px'
-          }">
-            <div class="box-card-content">
-              <img :src="require('../assets/'+item.src)" alt="">
+            <el-card class="box-card">
+            <div id="teamList" class="box-card-content" @click="toTeamDetails(index)">
+              <img :src="require('../assets/'+src)" alt="">
               <div class="main1">
-                <span>{{item.title}}</span>
+                <span>{{item.t_name}}</span>
                 <div class="content">
-                  {{item.content}}
+                  队长：{{item.t_captain}}，队伍需求：{{item.t_demand}}
+                  <br><br>
+                  创建时间：{{item.t_ctime}}，参赛类型：{{item.t_type}}
                 </div>
                 </div>
             </div>
             </el-card>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-pagination
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="pageSize"
+              @current-change="toPrePage">
+            </el-pagination>
           </el-col>
         </el-row>
       </el-main>
@@ -152,6 +155,8 @@
 </template>
 
 <script>
+import { showAllForum } from '@/api';
+import router from '@/router';
 export default {
   name: "ForumView",
   data() {
@@ -159,23 +164,39 @@ export default {
       content:"",
       value1: "",
       value2: "",
-      match:[
-        {src:'zt.jpg',title:'标题',content:'团队简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
-        {src:'zt.jpg',title:'标题',content:'团队简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
-        {src:'zt.jpg',title:'标题',content:'团队简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
-        {src:'zt.jpg',title:'标题',content:'团队简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
-        {src:'zt.jpg',title:'标题',content:'团队简介---------------------------------------------------------------------------------------------------------------------------------------------------'}
-      ]
+      src:'zt.jpg',
+      total:1,    // 总条目数
+      pageSize:4, // 每页的数量
+      list:[],    // 队伍信息
     };
+  },
+  methods: {
+    // 更新比赛信息
+    upTeamData(num){
+      showAllForum(num).then((res)=>{
+        // console.log("所有队伍的信息：",res);
+        this.total=res.total; //总条目数
+        this.pageSize=res.pageSize; //每页的数量
+        this.list=res.list; //队伍信息
+      })
+    },
+    toPrePage(nowPage){
+      this.upTeamData(nowPage); //加载当前页的比赛信息
+    },
+    // 跳转队伍详情信息页面
+    toTeamDetails(val){
+      console.log("队伍序号",val);
+      this.$store.state.team.teamData=this.list[val];
+      router.push({path:"/teamDetails"});
+    },
+  },
+  mounted() {
+    this.upTeamData(1); // 加载第一页比赛信息
   },
 };
 </script>
 
 <style>
-/* 修改是因为这里定义900px会影响其他页面，一旦超过900，背景色就会断层（看完就把这几行删了吧） */
-/* .el-container{
-  height: 900px;
-} */
 .el-aside {
   height: 900px;
   line-height: 20px;
@@ -252,6 +273,9 @@ export default {
   font-size: 14px;
   text-align: left;
   font-family: Helvetica-regular;
+}
+#teamList{
+  cursor: pointer;
 }
 </style>
 
