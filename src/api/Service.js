@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { Loading } from 'element-ui';
 import { Message } from 'element-ui';
-
+axios.defaults.withCredentials = true;
 let loadingObj = null
 const Service = axios.create({
-    baseURL:'/api',
+    baseURL:'/gogoContest',
     timeout:5000
 });
 //请求拦截

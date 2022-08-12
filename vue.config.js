@@ -3,10 +3,11 @@ module.exports = {
     // transpileDependencies: true,
     devServer: {
         proxy: {
-            '/api': {
+            '/gogoContest': {
                 target: 'http://60.205.2.92:8080/gogoContest',
+                changeOrigin: true,
                 pathRewrite: {
-                    '^/api': ''
+                    '^/gogoContest': ''
                 }
             }
         }
