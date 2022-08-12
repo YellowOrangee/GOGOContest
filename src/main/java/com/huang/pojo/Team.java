@@ -17,7 +17,8 @@ public class Team {
     private String tm_captain;
     private Date tm_ctime;
     private String tm_demand;
-    private int count;
+    private int tm_count;
+    private String tm_public;
     private String tm_status;
     private String tm_type;
 

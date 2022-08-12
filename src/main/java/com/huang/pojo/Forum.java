@@ -12,9 +12,16 @@ import java.util.Date;
 public class Forum {
 
     private int f_id;
-    private String f_title;
-    private String f_content;
-    private Date f_time;
+    private int t_id;
+    private String t_captain;
+    private String t_name;
+    private String t_ctime;
+    private String t_demand;
+    private int t_count;
+    private String t_contact;
+    private String t_public;
+    private String t_status;
+    private String t_type;
     private int f_replayTime;
     private int f_clickTime;
 }
