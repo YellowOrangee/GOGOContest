@@ -26,15 +26,13 @@ public class TeamController {
 
 
 
-//    QueryTimeOut!!!!!
     //    创建队伍
     @RequestMapping(value="/creatTeam",method = RequestMethod.POST)
-    public Map addTeam(String name,String demand, int count, String type,HttpSession session){
+    public Map<String,Object> addTeam(String name,String demand, int count, String type,String tPublic,HttpSession session){
 
 //        封装参数
         Map<String,Object> map=new HashMap<>();
-
-        Map map1=new HashMap();
+        Map<String,Object> result=new HashMap();
 
 //        获取系统时间
         Date date=new Date();
@@ -52,57 +50,42 @@ public class TeamController {
         map.put("count",count); //队伍人数
         map.put("ctime",time); //创建时间
         map.put("type",type); //队伍类型(参赛类型等)
+        map.put("tPublic",tPublic); //队伍是否公开
 
 //        添加队伍
         int i = teamService.addTeam(map);
         if(i>0){
 
-            map1.put("success",true);
+            result.put("success",true);
         }else{
-            map1.put("success",false);
+            result.put("success",false);
         }
-        return map1;
+        return result;
     }
 
 
 
     //    添加小队成员                   待完善!!!!!!!
     @RequestMapping(value="/addMembers",method = RequestMethod.GET)
-    public Map addMembers(String teamName,String memberName){
-
-
-        System.out.println(teamName);
-        System.out.println(memberName);
-//        封装参数
-        Map<String,Object> map=new HashMap<>();
-        map.put("teamName",teamName);
-        map.put("memberName",memberName);
-
+    public Map<String,Object> addMembers(String memberName,Integer tid){
 
 //        设置返回数据
-        Map map1=new HashMap();
+        Map<String,Object> result=new HashMap();
+
+//        封装参数
+        Map<String,Object> map=new HashMap<>();
+        map.put("memberName",memberName);
+        map.put("tid",tid);
+
         int i = teamService.addMember(map);
         if(i>0){
-            map1.put("success",true);
+            result.put("success",true);
         }else{
-            map1.put("success",false);
+            result.put("success",false);
         }
-        return map1;
-    }
-
-
-
-//    修改队伍信息:在判断用户为该队伍队长身份后,跳转到修改页面(此页面调用setTeamInfo方法展示队伍信息,
-//    修改完成后,表单提交到此方法,修改队伍信息)
-
-
-    @RequestMapping(value ="/updateTeam",method = RequestMethod.POST)
-    public Map<String, Object> updateTeam (Team team){
-        Map<String, Object> result = new HashMap<>();
-
-
         return result;
     }
+
 
     //  1.判断请求发起者是否为队长,非队长无资格修改队伍信息
     @RequestMapping(value="/judgeIdentity",method = RequestMethod.POST)
@@ -116,12 +99,15 @@ public class TeamController {
         User user = (User) session.getAttribute("currentUser");
         String name=user.getU_name();
 
+
+
         map.put("id",id);
         map.put("name",name);
         String identity = teamService.judgeIdentity(map);
 
 //        判断是否为队长
         if(identity.equals(name)){
+            session.setAttribute("id",id);
             result.put("session",true);  //如果是队长,则可以路由跳转到修改页面
         }else{
             result.put("msg","抱歉,只有队长才有此权限!");
@@ -130,7 +116,16 @@ public class TeamController {
     }
 
 
-//    解散队伍 传入被解散队伍的ID
+    //    展示队伍信息
+    @RequestMapping(value="/showTeamById",method= RequestMethod.GET,produces = {"text/plain;charset=UTF-8"})
+    public String showTeamInfo(HttpSession session){
+        int id = (int) session.getAttribute("id");
+        List  list=new ArrayList();
+        list.add(teamService.showTeamById(id));
+        return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
+    }
+
+    //    解散队伍 传入被解散队伍的ID
     @RequestMapping("/disbandTeam")
     public  Map<String,Object> updateTeam(int id){
         Map<String,Object> result=new HashMap<>();
@@ -145,15 +140,32 @@ public class TeamController {
     }
 
 
-    //    展示队伍信息
-    @RequestMapping(value="/showTeamInfo",method= RequestMethod.GET,produces = {"text/plain;charset=UTF-8"})
-    public String showTeam(int id){
-        List  list=new ArrayList();
-        list.add(teamService.showTeamById(id));
-        return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
+    //    修改队伍信息:在判断用户为该队伍队长身份后,跳转到修改页面(此页面调用setTeamInfo方法展示队伍信息,
+//    修改完成后,表单提交到此方法,修改队伍信息)
+
+
+    @RequestMapping(value ="/updateTeam",method = RequestMethod.POST)
+    public Map<String, Object> updateTeam (Team team){
+        Map<String, Object> result = new HashMap<>();
+
+        int resultNum = teamService.updateTeam(team);
+        if(resultNum>0){
+            result.put("success",true);
+        }else{
+            result.put("success",false);
+        }
+        return result;
     }
 
-//    退出队伍
+    //    退出队伍
+//    @RequestMapping(value ="/quitTeam",method = RequestMethod.POST)
+//    public Map<String, Object> quitTeam (Integer id,HttpSession session) {
+//        Map<String, Object> result = new HashMap<>();
+//
+//        User user = (User) session.getAttribute("currentUser");
+//        String name=user.getU_name();
+//        return result;
+//    }
 
 }
 
