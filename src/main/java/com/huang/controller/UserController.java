@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -42,6 +43,8 @@ public class UserController {
         return result;
     }
 
+
+//    问题:如果用户表和管理员表中用户名相同,则优先登录用户表(改进:查询身份时,新增加根据代码查询条件)
     @RequestMapping("/login")
     public Map<String, Object> login(String name, String password,String rememberMe, HttpServletRequest request,
                                      HttpServletResponse response) throws UnsupportedEncodingException {
@@ -51,9 +54,9 @@ public class UserController {
         String userPwd=password;
 
         System.out.println("name:"+name);
-        System.out.println("identity:"+userService.findIdentity(name));
+        System.out.println("identity:"+userService.findIdentity(name,password));
 //        判断登录者身份
-        if("1".equals(userService.findIdentity(name))){
+        if("1".equals(userService.findIdentity(name,password))){
 //           进行普通用户登录
             User resultUser = userService.Login(name, password);
             System.out.println("进行普通用户登录");
@@ -70,7 +73,8 @@ public class UserController {
             System.out.println("进行管理员登录");
             if (resultAdmin != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("currentUser", resultAdmin);
+                session.setAttribute("currentAdmin", resultAdmin);
+                System.out.println(resultAdmin);
                 result.put("success", true);
             } else if (resultAdmin == null){
                 result.put("success",false );
@@ -176,23 +180,52 @@ public class UserController {
         return result;
     }
 
-       //    展示个人信息
-       @RequestMapping("/showInfo")
-       public String showInfo(HttpServletRequest request){
-           Map<String,Object> result=new HashMap<>();
 
-       //       获取当前用户session信息
-           HttpSession session = request.getSession();
-           User currentUser = (User) session.getAttribute("currentUser");
-           String name=currentUser.getU_name();
-           System.out.println(name);
+    @RequestMapping(value="/showInfo",method = RequestMethod.GET,produces = {"text/plain;charset=UTF-8"})
+    public String showUserInfo(HttpSession session){
 
-           User showUser = userService.queryUserByName(name);
+//       获取当前用户session信息
+        User currentUser = (User) session.getAttribute("currentUser");
+        int uid = currentUser.getU_id();
+        System.out.println(uid);
 
-       //        将用户信息放入list集合转为Json字符串
-           List<User> list =new ArrayList<>();
-           list.add(showUser);
-           System.out.println("user:"+showUser);
-           return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
-       }
+        User showUser = userService.queryUserById(uid);
+        List<User> list=new ArrayList<>();
+        list.add(showUser);
+        System.out.println("user:"+list);
+        return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
+
+    }
+
+//       修改头像
+//    @RequestMapping(value = "/updateHeadPic")
+//    public Map<String,String> updateHeadPic(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+//
+//        Map<String,String> result=new HashMap<>();
+//
+//
+//        User user= (User) session.getAttribute("currentUser");
+//        String username=user.getU_name();
+//        logger.info("/user/uploadHeadPic -> start - username: " + username);
+//        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+//        CommonsMultipartFile file = (CommonsMultipartFile) multipartRequest.getFile("profileFile");
+//        logger.info("file content type: " + file.getContentType());
+//        logger.info("file original name: " + file.getOriginalFilename());
+//        logger.info("file name: " + file.getName());
+//        if (null == file || file.isEmpty()) {
+//            result.put("400", "文件不能为空");
+//        }else {
+//            result.put("200", "文件上传成功");
+//            try {
+//                user.setProfile(file.getBytes());
+//                result = userService.updateProfileByUsername(user);
+//            } catch (Exception e) {
+//                logger.error("上传失败 - " + e.getMessage());
+//                result.put("500","文件保存失败");
+//            }
+//            logger.info("/user/updateHeadPic -> end");
+//        }
+//        return result;
+//    }
+
 }
