@@ -4,7 +4,7 @@
     <div class="match_details_header">
       <el-image
       style="width: 90%; height: 450px; margin: 0 auto;"
-      :src="require('../assets/'+competition.img)"
+      :src="require('../assets/'+img)"
       fit="contain"></el-image>
     </div>
     <br><hr><br>
@@ -12,16 +12,16 @@
     <!-- 左下角 -->
     <div class="match_details_left">
       <div style="font: 32px 庞门正道粗书体;text-align: center;">
-        {{competition.name}}
+        {{competition.g_title}}
         <hr>
       </div>
       <div style="margin-left: 50px;">
         <h3>比赛简介</h3>
-        <p>{{competition.introduction}}</p>
+        <p>{{competition.g_body}}</p>
         <h3>补充内容</h3>
-        <p>{{competition.supplement}}</p>
+        <p>{{supplement}}</p>
         <h3>大赛官网</h3>
-        <el-link :href="competition.web" target="_blank">{{competition.web}}</el-link>
+        <el-link :href="competition.g_link" target="_blank">{{competition.g_link}}</el-link>
         <br><br><hr>
         <div style="font: 32px 庞门正道粗书体;">该比赛组队信息</div>
         <hr>
@@ -83,14 +83,10 @@ export default {
   name: "MatchDetails",
   data() {
     return{
+      supplement: "无", // 补充信息
+      img: 'rotationChart2.png',
       // 比赛信息
-      competition:{
-        img: 'rotationChart2.png',
-        name: "中国国际“互联网+”大学生创新创业大赛",
-        introduction: "示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字",
-        supplement: "无",
-        web: "https://cy.ncss.cn/",
-      },
+      competition:{},
       // 组队信息
       team:[
         {src:'zt.jpg',title:'标题',content:'团队简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
@@ -113,7 +109,10 @@ export default {
     clickCollection() {
       this.collectionStatus=!this.collectionStatus;
     },
-  }
+  },
+  mounted() {
+    this.competition=this.$store.state.match.matchData
+  },
 }
 </script>
 

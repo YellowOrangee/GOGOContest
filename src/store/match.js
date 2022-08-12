@@ -1,5 +1,5 @@
 const state = {
-    teamData:{}  //组队论坛点击的组队信息
+    matchData:{}  //比赛信息点击的比赛详情数据
 }
 const mutations = {};
 const actions = {};

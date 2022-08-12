@@ -171,7 +171,7 @@ export default {
     };
   },
   methods: {
-    // 更新比赛信息
+    // 更新队伍列表
     upTeamData(num){
       showAllForum(num).then((res)=>{
         // console.log("所有队伍的信息：",res);
@@ -180,8 +180,9 @@ export default {
         this.list=res.list; //队伍信息
       })
     },
+    //加载当前页的队伍列表
     toPrePage(nowPage){
-      this.upTeamData(nowPage); //加载当前页的比赛信息
+      this.upTeamData(nowPage);
     },
     // 跳转队伍详情信息页面
     toTeamDetails(val){
@@ -191,7 +192,7 @@ export default {
     },
   },
   mounted() {
-    this.upTeamData(1); // 加载第一页比赛信息
+    this.upTeamData(1); // 加载第一页的队伍列表
   },
 };
 </script>

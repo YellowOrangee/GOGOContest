@@ -35,3 +35,10 @@ export const showAllForum = (data)=>Service({
     url:`/teamForum/showAllForum/page?pageNum=${data}`,
     method:'get'
 })
+
+// 展示所有比赛信息
+// /game/showGame/page
+export const showMatch = (data)=>Service({
+    url:`/game/showGame/page?pageNum=${data}`,
+    method:'get'
+})

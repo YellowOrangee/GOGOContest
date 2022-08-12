@@ -134,29 +134,29 @@
             <i class="el-icon-plus addMatch" @click="toReleaseCompetition"></i><span class="addMatch" @click="toReleaseCompetition">我要发布竞赛</span>
           </el-col>
         </el-row>
-        <el-row :gutter="0" class="mainContainer" v-for="(item, index) in match" :key="index">
+        <el-row :gutter="0" class="mainContainer" v-for="(item, index) in list" :key="index">
           <el-col :span="22" :offset="1">
-            <el-card class="box-card" body-style="{
-            width: '807px';
-            height: '154px';
-            line-height: '20px';
-            border-radius: '4px 4px 4px 4px';
-            background-color: 'rgba(255, 255, 255, 100)';
-            text-align: 'center';
-            border: '1px solid rgba(25, 137, 250, 100)';
-            padding:'20px'
-          }"
-          >
-            <div class="box-card-content" @click="toDetail(item.id)">
-              <img :src="require('../assets/'+item.src)" alt="">
+            <el-card class="box-card">
+            <div id="matchList" class="box-card-content" @click="toDetail(index)">
+              <img :src="require('../assets/'+src)" alt="">
               <div class="main1">
-                <span>{{item.title}}</span>
+                <span>{{item.g_title}}</span>
                 <div class="content">
-                  {{item.content}}
+                  {{item.g_body}}
                 </div>
                 </div>
             </div>
             </el-card>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-pagination
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="pageSize"
+              @current-change="toPrePage">
+            </el-pagination>
           </el-col>
         </el-row>
       </el-main>
@@ -166,6 +166,7 @@
 </template>
 
 <script>
+import { showMatch } from '@/api'
 import router from '@/router'
 
 export default {
@@ -182,44 +183,69 @@ export default {
         {id:'1',src:'zt.jpg',title:'标题',content:'简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
         {id:'2',src:'zt.jpg',title:'标题',content:'简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
         {id:'3',src:'zt.jpg',title:'标题',content:'简介---------------------------------------------------------------------------------------------------------------------------------------------------'}
-      ]
+      ],
+      src:'zt.jpg',
+      total:0,    // 总条目数
+      pageSize:4, // 每页的数量
+      list:[],    // 比赛信息
     }
   },
   methods:{
     toDetail(id){
       //传递参数
       // router.push({path:'/matchDetails',query:{id:''}})
+      console.log("比赛序号",id);
+      this.$store.state.match.matchData=this.list[id];
       router.push({path:'/matchDetails'})
-      console.log(id)
     },
     toReleaseCompetition(){
       console.log("1")
-    }
-  }
+    },
+    // 更新比赛信息
+    upMatchData(num){
+      showMatch(num).then((res)=>{
+        res=JSON.parse(res) //服务器返回的是字符串，需要转成对象
+        console.log("所有比赛的信息：",res);
+        this.total=res.total; //总条目数
+        this.pageSize=res.pageSize; //每页的数量
+        this.list=res.list; //比赛信息
+      })
+    },
+    //加载当前页的比赛信息
+    toPrePage(nowPage){
+      this.upMatchData(nowPage);
+    },
+  },
+  mounted() {
+    this.upMatchData(1); // 加载第一页的队伍列表
+  },
 }
 </script>
 <style>
 /* 轮播图 */
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
-  
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-  
-  .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-  }
-  .addMatch{
-    color: rgba(47, 143, 251, 100);
-    font-size: 16px;
-    text-align: left;
-    font-family: SourceHanSansSC-regular;
-    cursor: pointer;
-  }
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+.addMatch{
+  color: rgba(47, 143, 251, 100);
+  font-size: 16px;
+  text-align: left;
+  font-family: SourceHanSansSC-regular;
+  cursor: pointer;
+}
+#matchList{
+  cursor: pointer;
+}
 </style>
