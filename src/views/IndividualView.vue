@@ -118,7 +118,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'IndividualView',
   data() {
@@ -148,8 +147,12 @@ export default {
   methods: {
       handleClick(tab, event) {
         console.log(tab, event);
-      }
-    }
+      },
+    },
+  mounted:async function(){
+    //派发action获取个人信息
+    this.$store.dispatch('getUserInfo')
+  }
 }
 </script>
 

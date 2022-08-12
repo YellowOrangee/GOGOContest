@@ -14,11 +14,11 @@
 
         <!-- 比赛 -->
         <el-row :gutter="2">
-          <el-col :span="7" :offset="2" class="title1">配置比赛信息</el-col>
+          <el-col :span="7" :offset="1" class="title1">配置比赛信息</el-col>
         </el-row>
 
         <el-row :gutter="0">
-          <el-col :span="5" :offset="2" class="time1">报名时间：</el-col>
+          <el-col :span="5" :offset="1" class="time1">报名时间：</el-col>
           <el-col :span="3">
             <div class="datePicker">
               <el-date-picker
@@ -69,11 +69,11 @@
         </el-row>
         <!--组队  -->
         <el-row :gutter="2">
-          <el-col :span="7" :offset="2" class="title2">配置组队信息</el-col>
+          <el-col :span="7" :offset="1" class="title2">配置组队信息</el-col>
         </el-row>
 
         <el-row :gutter="0" class="information">
-          <el-col :span="5" :offset="2" class="time1">报名时间：</el-col>
+          <el-col :span="5" :offset="1" class="time1">报名时间：</el-col>
           <el-col :span="3">
             <div class="datePicker">
               <el-date-picker

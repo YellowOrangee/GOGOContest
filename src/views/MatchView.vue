@@ -129,6 +129,11 @@
 
       <!-- 右侧 -->
       <el-main>
+        <el-row :gutter="0">
+          <el-col :span="4" :offset="19">
+            <i class="el-icon-plus addMatch" @click="toReleaseCompetition"></i><span class="addMatch" @click="toReleaseCompetition">我要发布竞赛</span>
+          </el-col>
+        </el-row>
         <el-row :gutter="0" class="mainContainer" v-for="(item, index) in match" :key="index">
           <el-col :span="22" :offset="1">
             <el-card class="box-card" body-style="{
@@ -140,8 +145,9 @@
             text-align: 'center';
             border: '1px solid rgba(25, 137, 250, 100)';
             padding:'20px'
-          }">
-            <div class="box-card-content">
+          }"
+          >
+            <div class="box-card-content" @click="toDetail(item.id)">
               <img :src="require('../assets/'+item.src)" alt="">
               <div class="main1">
                 <span>{{item.title}}</span>
@@ -160,6 +166,7 @@
 </template>
 
 <script>
+import router from '@/router'
 
 export default {
   name: 'MatchView',
@@ -172,10 +179,21 @@ export default {
       value1: "",
       value2: "",
       match:[
-        {src:'zt.jpg',title:'标题',content:'简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
-        {src:'zt.jpg',title:'标题',content:'简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
-        {src:'zt.jpg',title:'标题',content:'简介---------------------------------------------------------------------------------------------------------------------------------------------------'}
+        {id:'1',src:'zt.jpg',title:'标题',content:'简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
+        {id:'2',src:'zt.jpg',title:'标题',content:'简介---------------------------------------------------------------------------------------------------------------------------------------------------'},
+        {id:'3',src:'zt.jpg',title:'标题',content:'简介---------------------------------------------------------------------------------------------------------------------------------------------------'}
       ]
+    }
+  },
+  methods:{
+    toDetail(id){
+      //传递参数
+      // router.push({path:'/matchDetails',query:{id:''}})
+      router.push({path:'/matchDetails'})
+      console.log(id)
+    },
+    toReleaseCompetition(){
+      console.log("1")
     }
   }
 }
@@ -196,5 +214,12 @@ export default {
   
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
+  }
+  .addMatch{
+    color: rgba(47, 143, 251, 100);
+    font-size: 16px;
+    text-align: left;
+    font-family: SourceHanSansSC-regular;
+    cursor: pointer;
   }
 </style>

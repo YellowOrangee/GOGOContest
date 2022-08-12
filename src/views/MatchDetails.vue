@@ -106,7 +106,7 @@ export default {
         sponsor: "教育部",   // 主办方
         level: "国家级"      // 竞赛级别
       },
-      collectionStatus: false,
+      collectionStatus: false,//收藏
     }
   },
   methods: {

@@ -49,8 +49,7 @@
                       >忘记密码</el-button
                     >
                   </el-col>
-                  <el-col style="text-align: right; width: 150px">
-                  </el-col>
+                  <el-col style="text-align: right; width: 150px"> </el-col>
                   <el-col style="text-align: right; width: 80px; float: right">
                     <el-button type="text" @click="toSignUpPage"
                       >我是新用户</el-button
@@ -133,6 +132,7 @@
                   placeholder="请输入注册邮箱"
                   v-model="signUpForm.signUp_email"
                   clearable
+                  @blur="judgeEmail"
                 ></el-input>
               </el-form-item>
               <el-button
@@ -152,13 +152,13 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import {login} from '@/api/index'
+import { login } from "@/api/index";
 import { register } from "@/api/index";
 import { findUserByName } from "@/api/index";
-import { Message } from 'element-ui';
-import router from '@/router';
+import { judgeEmail } from "@/api/index";
+import { Message } from "element-ui";
+import router from "@/router";
 
-import router from '@/router';
 export default {
   computed: {
     ...mapGetters(["checkLogin"]),
@@ -266,11 +266,14 @@ export default {
     signInSubmit() {
       this.$refs["signInForm"].validate((valid) => {
         if (valid) {
-            login({"name":this.$data.signInForm.userName,"password":this.$data.signInForm.password}).then(res=>{
-            console.log("登陆的返回",res)
-            localStorage.setItem("uInfo",JSON.stringify(this.$data.signInForm))
-            router.push({path:"/"});
-          })
+          login(this.$data.signInForm).then((res) => {
+            console.log("登陆的返回", res);
+            localStorage.setItem(
+              "uInfo",
+              JSON.stringify(this.$data.signInForm)
+            );
+            router.push({ path: "/" });
+          });
         } else {
           console.log("请输入正确的用户名和密码");
           return false;
@@ -294,38 +297,62 @@ export default {
       });
     },
     //检测用户名是否已用
-    findUserByName(){
-      findUserByName(this.$data.signUpForm.signUpName).then(res=>{
-          Message({
-          duration:2000,
-          message: res.success,
-          type: 'success'
-          });
-            console.log(res)
-          }).catch(err=>{
+    findUserByName() {
+      if (this.$data.signUpForm.signUpName != "") {
+        findUserByName(this.$data.signUpForm.signUpName).then((res) => {
+          if (res.success) {
             Message({
-          duration:2000,
-          message: err.success,
-          type: 'error'
-          });
-          console.log(err)
-          })
+              duration: 2000,
+              message: res.success,
+              type: "success",
+            });
+            console.log(res);
+          } else {
+            Message({
+              duration: 2000,
+              message: res.msg,
+              type: "error",
+            });
+          }
+        });
+      }
+    },
+    //检测邮箱是否可用
+    judgeEmail() {
+      if (this.$data.signUpForm.signUp_email != "") {
+        judgeEmail(this.$data.signUpForm.signUp_email).then((res) => {
+          if (res.success) {
+            Message({
+              duration: 2000,
+              message: "邮箱可用",
+              type: "success",
+            });
+            console.log(res);
+          } else {
+            Message({
+              duration: 2000,
+              message: res.msg,
+              type: "error",
+            });
+          }
+        });
+      }
     },
     // 注册
     signUpSubmit() {
       this.$refs["signUpForm"].validate((valid) => {
         if (valid) {
-          register({"name":this.$data.signUpForm.signUpName,"password":this.$data.signUpForm.signUpPass,"email":this.$data.signUpForm.signUp_email}).then(res=>{
-            console.log(res)
+          register(this.$data.signUpForm).then((res) => {
+            console.log(res);
             this.$message({ message: "注册成功", type: "success" });
             this.toSignInPage();
-          })
+          });
         } else {
           console.log("请按要求填写");
           return false;
         }
       });
-    }
+    },
   },
 };
 </script>

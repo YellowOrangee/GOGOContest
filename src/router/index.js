@@ -6,6 +6,7 @@ import MatchView from '../views/MatchView.vue'
 import LoginView from "@/views/LoginView"
 import MessageView from '../views/MessageView.vue'
 import SetupView from '../views/Setup.vue'
+import MatchDetailsView from '../views/MatchDetails.vue'
 import user from '../store/user'
 
 Vue.use(VueRouter)
@@ -40,6 +41,11 @@ const routes = [
     path: '/setup',
     name: 'setup',
     component: SetupView
+  },
+  {
+    path: '/matchDetails',
+    name: 'matchDetails',
+    component: MatchDetailsView
   }
 ]
 
