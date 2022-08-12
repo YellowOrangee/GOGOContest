@@ -51,8 +51,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String findIdentity(String name) {
-        return this.userMapper.findIdentity(name);
+    public String findIdentity(String name,String password) {
+        return this.userMapper.findIdentity(name,password);
     }
 
     @Override

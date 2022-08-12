@@ -18,7 +18,7 @@ public interface UserService {
 
     Admin adminLogin(String name, String password);
 
-    String findIdentity(String name);
+    String findIdentity(String name,String password);
 
     int updateUserInfo(Map<String,Object> map);
 

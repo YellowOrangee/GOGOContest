@@ -1,7 +1,7 @@
 package com.huang.service;
 
+import com.github.pagehelper.PageInfo;
 import com.huang.pojo.Team;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ public interface TeamService {
     //    创建队伍
     int addTeam(Map<String,Object> map);
 
-    //    初始化成员表(添加新建队伍的Id和队长名)
+    //    添加队员
     int addMember(Map<String,Object> map);
 
     //    根据队伍ID查询队长名
@@ -19,7 +19,12 @@ public interface TeamService {
     //    展示队伍信息
     Team showTeamById(int id);
 
-//    解散队伍
+    //    提交修改
+    int updateTeam(Team team);
+
+    //    解散队伍
     int disbandTeamS(int id);
+
+    PageInfo<Team> showAllTeam(Integer pageNum);
 
 }
