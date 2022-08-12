@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huang.dao.GameMapper">
+    <sql id="select-game">
+        g_id,g_title,g_body,g_type,g_link,uid,g_sTime,g_eTime
+    </sql>
+
+    <!--
+    int creatGame(Game game);
+    -->
+    <insert id="creatGame" parameterType="game">
+        insert into tb_game (g_title,g_body,g_type,g_link,uid,g_sTime,g_eTime)
+        values(#{g_title},#{g_body},#{g_type},#{g_link},#{uid},#{g_sTime},#{g_eTime})
+    </insert>
+
+    <!--
+    int deleteGame(Integer g_id);
+    -->
+    <delete id="deleteGame" parameterType="int">
+        delete from tb_game where g_id=#{g_id}
+    </delete>
+
+    <update id="updateGame" parameterType="game">
+        update tb_game
+        set g_title=#{g_title},g_body=#{g_body},g_type=#{g_type},g_link=#{g_link},g_sTime=#{g_sTime},g_eTime=#{g_eTime}
+        where g_id=#{g_id}
+    </update>
+
+<!--    根据g_id查询用户id-->
+    <select id="queryGameByGid" parameterType="int" resultType="game">
+        select
+        <include refid="select-game"/>
+        from tb_game
+        where g_id=#{g_id}
+    </select>
+
+<!--    根据g_id查询管理员id-->
+    <select id="queryAdIdByGid" parameterType="int" resultType="int">
+        select uid
+        from tb_game
+        where g_id=#{g_id}
+    </select>
+
+    <select id="queryUidByGid" parameterType="int" resultType="int">
+        select uid
+        from tb_game
+        where g_id = #{g_id}
+    </select>
+
+    <select id="showAllGame" resultType="game">
+        select 
+        <include refid="select-game"></include>
+        from tb_game
+    </select>
+</mapper>

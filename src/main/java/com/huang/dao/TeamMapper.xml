@@ -8,31 +8,37 @@
         tm_name,tm_captain,tm_ctime,tm_demand,tm_count,tm_status,tm_type
     </sql>
 
-
     <insert id="addTeam" parameterType="map">
-        insert into tb_team (tm_name,tm_captain,tm_ctime,tm_demand,tm_count,tm_type)
-        values (#{name},#{captain},#{ctime},#{demand},#{count},#{type})
+        insert into tb_team (tm_name,tm_captain,tm_ctime,tm_demand,tm_count,tm_type,tm_public)
+        values (#{name},#{captain},#{ctime},#{demand},#{count},#{type},#{tPublic})
     </insert>
 
     <!--    添加队员-->
     <update id="addMember" parameterType="map">
         update tb_members set
-        <if test="m_member1 == null">
-            tm_member1=#{memberName},
-        </if>
-        <if test="m_member2 == null">
-            tm_member2=#{memberName},
-        </if>
-        <if test="m_member3 == null">
-            tm_member3=#{memberName},
-        </if>
-        <if test="m_member4 == null">
-            tm_member4=#{memberName},
-        </if>
-        <if test="m_member5 == null">
-            tm_member5=#{memberName}
-        </if>
-        where m_name = #{teamName}
+
+        <choose>
+            <when test="m_member1==null">
+                m_member1=#{memberName},
+            </when>
+            <when test="m_member2==null">
+                m_member1=#{memberName},
+            </when>
+            <when test="m_member3==null">
+                m_member1=#{memberName},
+            </when>
+            <when test="m_member4==null">
+                m_member1=#{memberName},
+            </when>
+            <when test="m_member5==null">
+                m_member1=#{memberName}
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+
+        where m_id = #{tid}
     </update>
 
     <!--    判断申请修改队伍信息人的生份-->
@@ -48,9 +54,16 @@
         where tm_id = #{id}
     </select>
 
+    <update id="updateTeam" parameterType="team">
+        UPDATE tb_team
+        SET tm_name=#{tm_name},tm_captain=#{tm_captain},tm_demand=#{tm_demand},tm_count=#{tm_count},tm_type=#{tm_type},tm_public=#{tm_public}
+        where tm_id=#{tm_id}
+    </update>
+
     <delete id="disbandTeam" parameterType="int">
         DELETE FROM tb_team where tm_id=#{id}
     </delete>
+
 
 
 </mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.huang.dao.teamForumMapper">
+
+    <!--    sql片段:输出帖子信息-->
+    <sql id="select-forum">
+        f_id,t_id,t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_contact,t_public,t_type,f_click_time
+    </sql>
+
+    <insert id="PublishRecruitmentInfo" parameterType="forum">
+        insert into tb_forum(t_id,t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_public,t_type)
+        values(#{t_id},#{t_captain},#{t_name},#{t_ctime},#{t_demand},#{t_count},#{t_contact},#{t_public},#{t_type})
+    </insert>
+
+    <update id="addClickTime">
+        update tb_forum set f_click_time=f_click_time+1 where f_id=#{id}
+    </update>
+
+    <select id="showForum" resultType="forum">
+        select
+        <include refid="select-forum"></include>
+        from tb_forum
+    </select>
+
+    <insert id="replyForum" parameterType="map">
+        insert into tb_reply (r_fid,r_name,r_time,r_content)
+        values (#{fid},#{name},#{time},#{content})
+    </insert>
+
+    <select id="showReply" parameterType="int" resultType="reply">
+        select r_id,r_name,r_time,r_content
+        from tb_reply
+        where r_fid = #{id}
+    </select>
+
+    <delete id="deleteReply" parameterType="map">
+        delete from tb_reply where r_fid=#{fid} and r_name=#{name}
+    </delete>
+
+
+<!--    trim()的作用是去掉首尾的空格，replace()的作用是去掉字符串内部的空格。-->
+    <select id="showForumBySearch" parameterType="string" resultType="forum">
+        select
+        <include refid="select-forum"></include>
+        from tb_forum
+        where  concat(t_name,t_demand,t_type) like trim(replace(concat('%',#{keyWords},'%'),' ',''))
+    </select>
+
+    <select id="showForumByCondition" parameterType="int" resultType="forum">
+        select
+        <include refid="select-forum"></include>
+        where #{keyWords} like
+    </select>
+
+
+</mapper>

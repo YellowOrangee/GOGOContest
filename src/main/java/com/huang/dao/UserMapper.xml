@@ -5,6 +5,9 @@
 
 <mapper namespace="com.huang.dao.UserMapper">
 
+    <sql id="select-user">
+        u_id,u_name,profile,u_sex,u_password,u_phone,u_contactInfo,u_email,u_school,u_major,u_personalInfo,u_identity
+    </sql>
 
     <insert id="register" parameterType="string">
         insert into tb_users (u_name,u_password,u_email)
@@ -13,13 +16,17 @@
 
 <!--    判断ID是否可用-->
     <select id="queryUserById" resultType="user">
-        select * from tb_users
+        select
+        <include refid="select-user"></include>
+        from tb_users
         where u_id=#{id}
     </select>
 
 <!--    判断用户名是否可用-->
     <select id="queryUserByName" resultType="user">
-        select * from tb_users
+        select
+        <include refid="select-user"></include>
+        from tb_users
         where u_name=#{name}
     </select>
 
@@ -32,12 +39,14 @@
     <!--    判断用户身份-->
     <select id="findIdentity" resultType="string">
         select u_identity from tb_users
-        where u_name=#{name}
+        where u_name=#{name} and u_password=#{password}
     </select>
 
 <!--    用户登录-->
     <select id="Login" resultType="user">
-        select * from tb_users
+        select
+        <include refid="select-user"></include>
+        from tb_users
         where u_name=#{name} and u_password=#{password}
     </select>
 
@@ -58,5 +67,18 @@
                             u_personalInfo=#{personalInfo}
         where u_name =#{name}
     </update>
+
+
+<!--    <resultMap id="ResultMapWithBLOBs" type="com.oms.model.User" extends="BaseResultMap">-->
+<!--        <result column="profile" property="profile" jdbcType="LONGVARBINARY"-->
+<!--                typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>-->
+<!--    </resultMap>-->
+<!--    -->
+<!--    &lt;!&ndash; 根据username更新头像 &ndash;&gt;-->
+<!--    <update id="updateProfileByUsername" parameterType="user">-->
+<!--        update user-->
+<!--        set profile = #{profile,jdbcType=LONGVARBINARY}-->
+<!--        where username = #{username,jdbcType=VARCHAR}-->
+<!--    </update>-->
 
 </mapper>

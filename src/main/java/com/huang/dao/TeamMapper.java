@@ -3,6 +3,7 @@ package com.huang.dao;
 import com.huang.pojo.Team;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 public interface TeamMapper {
@@ -17,8 +18,13 @@ public interface TeamMapper {
     String judgeIdentity(Map<String,Object> map);
 
     //    显示指定队伍信息(用于修改队伍信息)
-    Team showTeamById(@Param("id") int id);
+    Team showTeamById(@Param("id") int uid);
 
-//    解散队伍
+    int updateTeam(Team team);
+
+    //    解散队伍
     int disbandTeam(@Param("id") int id);
+
+    //    展示所有队伍信息
+    List<Team> showAllTeam();
 }
