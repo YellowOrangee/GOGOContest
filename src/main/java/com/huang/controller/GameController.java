@@ -42,6 +42,7 @@ public class GameController {
       Map<String,Object> result=new HashMap<>();
       int resultNum=0;
 
+//
         //        获取系统时间(仅测试,实际是需要用户从前端返回标准的时间)
         Date date=new Date();
         SimpleDateFormat dateFormat=new SimpleDateFormat("yy-MM-dd :hh:dd:ss");
