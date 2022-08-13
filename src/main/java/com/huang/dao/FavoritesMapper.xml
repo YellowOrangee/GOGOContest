@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huang.dao.FavoritesMapper">
+
+    <!--
+    int collect(Favorites favorites);   //收藏
+    private int fa_id;
+    private int fa_uid;
+    private int fa_gid;
+    private Date fa_time;
+    -->
+    <insert id="addCollect" parameterType="favorites">
+        insert into
+            tb_favorites(fa_uid,fa_gid,fa_time)
+        values(#{fa_uid},#{fa_gid},#{fa_time})
+    </insert>
+
+    <select id="judgeCollect" parameterType="int" resultType="int">
+        select fa_uid
+        from tb_favorites
+        where fa_gid=#{gid} and fa_uid=#{uid}
+
+    </select>
+
+    <delete id="cancelCollect" parameterType="int">
+        delete from tb_favorites
+        where fa_uid=#{fa_uid} and fa_gid = #{fa_gid}
+    </delete>
+
+    <select id="collectionTimes" parameterType="int" resultType="int">
+        select COUNT(*)
+        from tb_favorites
+        where fa_gid = #{fa_gid}
+    </select>
+
+    <select id="myCollect" parameterType="int" resultType="favorites">
+        select fa_gid,fa_time
+        from tb_favorites
+        where fa_uid = #{fa_uid}
+    </select>
+
+    <select id="whoCollect" parameterType="int" resultType="favorites">
+        select fa_uid,fa_time
+        from tb_favorites
+        where fa_uid = #{fa_uid}
+    </select>
+</mapper>

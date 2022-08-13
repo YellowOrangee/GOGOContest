@@ -1,6 +1,9 @@
 package com.huang.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.huang.dao.GameMapper;
+import com.huang.pojo.Forum;
 import com.huang.pojo.Game;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +51,16 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<Game> showAllGame() {
-        return gameMapper.showAllGame();
+    public PageInfo<Game> showAllGameS(Integer pageNum) {
+        //        开启分页功能
+        PageHelper.startPage(pageNum,4);
+//        获取员工信息
+        List<Game> list= gameMapper.showAllGame();
+//        获取分页相关数据
+        PageInfo<Game> page= new PageInfo<>(list,5);
+
+        return page;
     }
+
+
 }

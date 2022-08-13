@@ -7,6 +7,7 @@ import com.huang.dao.teamForumMapper;
 import com.huang.pojo.Forum;
 import com.huang.pojo.Page;
 import com.huang.pojo.Reply;
+import com.huang.vo.ForumVo;
 
 import java.util.List;
 import java.util.Map;
@@ -36,11 +37,11 @@ public class teamForumServiceImpl implements teamForumService{
     }
 
     @Override
-    public PageInfo<Forum> showForumByCondition(Integer pageNum) {
+    public PageInfo<Forum> showForumByConditionS(ForumVo forumVo, Integer pageNum) {
         //        开启分页功能
         PageHelper.startPage(pageNum,4);
 //        获取员工信息
-        List<Forum> list= teamForumMapper.showForumByCondition();
+        List<Forum> list= teamForumMapper.showForumByCondition(forumVo);
 //        获取分页相关数据
         PageInfo<Forum> page= new PageInfo<>(list,5);
         return page;
@@ -82,5 +83,10 @@ public class teamForumServiceImpl implements teamForumService{
     @Override
     public int deleteReplyS(Map<String, Object> map) {
         return this.teamForumMapper.deleteReply(map);
+    }
+
+    @Override
+    public List<Forum> showTeamByCaptainS(String captain) {
+        return this.teamForumMapper.showTeamByCaptain(captain);
     }
 }

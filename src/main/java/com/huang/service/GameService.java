@@ -1,5 +1,6 @@
 package com.huang.service;
 
+import com.github.pagehelper.PageInfo;
 import com.huang.pojo.Game;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,5 +19,5 @@ public interface GameService {
 
     int queryUidByGid( Integer id);
 
-    List<Game> showAllGame();
+    PageInfo<Game> showAllGameS(Integer pageNum);
 }

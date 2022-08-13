@@ -189,11 +189,16 @@ public class UserController {
         int uid = currentUser.getU_id();
         System.out.println(uid);
 
+//        输出用户信息
         User showUser = userService.queryUserById(uid);
+        //新建list数组
         List<User> list=new ArrayList<>();
+        //将用户信息add到list数组中
         list.add(showUser);
         System.out.println("user:"+list);
+        //调用fastJson的方法,将list集合中的数据转为JSON格式   该方法的返回值类型是String
         return JSON.toJSONString(list, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
+                                       //确保对象的所有属性都被返回                 将返回数据值为null,替换为""
 
     }
 

@@ -17,7 +17,7 @@ public interface TeamMapper {
     //    判断修改队伍请求发起人是否为该队伍队员
     String judgeIdentity(Map<String,Object> map);
 
-    //    显示指定队伍信息(用于修改队伍信息)
+    //
     Team showTeamById(@Param("id") int uid);
 
     int updateTeam(Team team);

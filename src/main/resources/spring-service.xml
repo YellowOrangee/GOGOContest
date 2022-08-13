@@ -28,9 +28,19 @@
         <property name="adminMapper" ref="adminMapper"/>
     </bean>
 
-<!--    配置 论坛帖子 对象注入-->
-    <bean id="ForumServiceImpl" class="com.huang.service.ForumServiceImpl">
-        <property name="forumMapper" ref="forumMapper"/>
+    <!--    配置 组队招募 对象注入-->
+    <bean id="teamForumServiceImpl" class="com.huang.service.teamForumServiceImpl">
+        <property name="teamForumMapper" ref="teamForumMapper"/>
+    </bean>
+
+    <!--    配置大赛信息对象注入-->
+    <bean id="GameServiceImpl" class="com.huang.service.GameServiceImpl">
+        <property name="gameMapper" ref="gameMapper"/>
+    </bean>
+
+    <!--    配置大赛信息收藏对象注入-->
+    <bean id="FavoritesServiceImpl" class="com.huang.service.FavoritesServiceImpl">
+        <property name="favoritesMapper" ref="favoritesMapper"/>
     </bean>
 
 <!--    配置事务管理器-->

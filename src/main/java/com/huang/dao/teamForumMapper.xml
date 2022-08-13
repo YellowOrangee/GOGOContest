@@ -7,12 +7,12 @@
 
     <!--    sql片段:输出帖子信息-->
     <sql id="select-forum">
-        f_id,t_id,t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_contact,t_public,t_type,f_click_time
+        f_id,t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_contact,t_public,t_type,t_gname,f_click_time
     </sql>
 
     <insert id="PublishRecruitmentInfo" parameterType="forum">
-        insert into tb_forum(t_id,t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_public,t_type)
-        values(#{t_id},#{t_captain},#{t_name},#{t_ctime},#{t_demand},#{t_count},#{t_contact},#{t_public},#{t_type})
+        insert into tb_forum(t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_public,t_type,t_gname)
+        values(#{t_captain},#{t_name},#{t_ctime},#{t_demand},#{t_count},#{t_contact},#{t_public},#{t_type},#{t_gname})
     </insert>
 
     <update id="addClickTime">
@@ -49,10 +49,37 @@
         where  concat(t_name,t_demand,t_type) like trim(replace(concat('%',#{keyWords},'%'),' ',''))
     </select>
 
-    <select id="showForumByCondition" parameterType="int" resultType="forum">
+<!--    在发布招募信息页面展示该用户的队伍信息-->
+    <select id="showTeamByCaptain" parameterType="string" resultType="forum">
         select
         <include refid="select-forum"></include>
-        where #{keyWords} like
+        from tb_forum
+        where t_captain = #{captain}
+    </select>
+
+
+
+    <select id="showForumByCondition" parameterType="com.huang.vo.ForumVo" resultType="forum">
+        select
+        <include refid="select-forum"></include>
+        <where>
+        <!--  招募贴队伍参赛级别条件判断  null:条件框未选择条件, ' ':条件框中输入空白-->
+               <if test="level !=null and level !=' '">
+                    and t_type like trim(replace(#{level},' ',''))
+               </if>
+               <!-- 队伍需求条件判断-->
+               <if test="demand !=null and demand !=' '">
+                   and t_demand like trim(replace(contat('%',#{demand},'%'),' ',''))
+               </if>
+               <!-- 用户只选择了报名起始时间,没选择报名终止时间 -->
+               <if test="(sTime !=null and sTime !=' ') and (eTime ==null or eTime ==' ')">
+                   and t_ctime >= {sTime}
+               </if>
+            <if test="(sTime ==null and sTime ==' ') and (eTime !=null or eTime !=' ')">
+                and t_ctime >= {sTime}
+            </if>
+               concat(t_name,t_demand,t_type) like
+        </where>
     </select>
 
 

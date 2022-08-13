@@ -12,7 +12,6 @@ import java.util.Date;
 public class Forum {
 
     private int f_id;
-    private int t_id;
     private String t_captain;
     private String t_name;
     private String t_ctime;
@@ -22,6 +21,7 @@ public class Forum {
     private String t_public;
     private String t_status;
     private String t_type;
+    private String t_gname;
     private int f_replayTime;
     private int f_clickTime;
 }

@@ -3,6 +3,8 @@ package com.huang.dao;
 import com.github.pagehelper.PageInfo;
 import com.huang.pojo.Forum;
 import com.huang.pojo.Reply;
+import com.huang.pojo.Team;
+import com.huang.vo.ForumVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,14 +14,11 @@ public interface teamForumMapper {
 
     int PublishRecruitmentInfo(Forum forum);
 
-
-
     //    展示招募帖(完全展示)
     List<Forum> showForum();
 
-
 //    直接搜索展示招募贴
-    List<Forum> showForumByCondition();
+    List<Forum> showForumByCondition(ForumVo forumVo);
 
 //    多条件综合展示招募贴
     List<Forum> showForumBySearch(@Param("keyWords") String keyWords);
@@ -31,4 +30,6 @@ public interface teamForumMapper {
     List<Reply> showReply(@Param("id") int fid);
 
     int deleteReply(Map<String,Object> map);
+
+    List<Forum> showTeamByCaptain(@Param("captain") String captain);
 }
