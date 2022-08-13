@@ -187,7 +187,12 @@ export default {
     // 跳转队伍详情信息页面
     toTeamDetails(val){
       console.log("队伍序号",val);
-      this.$store.state.team.teamData=this.list[val];
+      this.$store.state.team.teamData=this.list[val]; // 队伍详情数据写入store
+      localStorage.setItem(           // 队伍详情数据写入本地储存，防止刷新就没
+        "teamData",
+        JSON.stringify(this.list[val])
+      );
+
       router.push({path:"/teamDetails"});
     },
   },

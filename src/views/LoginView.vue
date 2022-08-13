@@ -268,14 +268,20 @@ export default {
         if (valid) {
           login(this.$data.signInForm).then((res) => {
             console.log("登陆的返回", res);
-            localStorage.setItem(
-              "uInfo",
-              JSON.stringify(this.$data.signInForm)
-            );
-            router.push({ path: "/" });
+            if (res.success==true) {
+              this.$store.state.user.uInfo=this.$data.signInForm; // 登录数据写入store
+              localStorage.setItem(           // 登录数据写入本地储存，防止刷新就没
+                "uInfo",
+                JSON.stringify(this.$data.signInForm)
+              );
+              router.push({ path: "/" });     // 路由跳转
+              this.$message({message:"登录成功",type: "success",});
+            } else {
+              this.$message({message:"请输入正确的用户名和密码",type: "error",});
+            }
           });
         } else {
-          console.log("请输入正确的用户名和密码");
+          this.$message({message:"你倒是输入点东西啊",type: "warning",});
           return false;
         }
       });

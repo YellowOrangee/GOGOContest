@@ -195,7 +195,12 @@ export default {
       //传递参数
       // router.push({path:'/matchDetails',query:{id:''}})
       console.log("比赛序号",id);
-      this.$store.state.match.matchData=this.list[id];
+      // console.log(this.list[id]);
+      this.$store.state.match.matchData=this.list[id]; // 比赛详情数据写入store
+      localStorage.setItem(           // 比赛详情数据写入本地储存，防止刷新就没
+        "matchData",
+        JSON.stringify(this.list[id])
+      );
       router.push({path:'/matchDetails'})
     },
     toReleaseCompetition(){
