@@ -144,6 +144,7 @@
             <el-pagination
               layout="prev, pager, next"
               :total="total"
+              background
               :page-size="pageSize"
               @current-change="toPrePage">
             </el-pagination>

@@ -302,7 +302,7 @@ export default {
         findUserByName(this.$data.signUpForm.signUpName).then((res) => {
           if (res.success) {
             Message({
-              duration: 2000,
+              duration: 1500,
               message: res.success,
               type: "success",
             });

@@ -7,7 +7,8 @@ import LoginView from "@/views/LoginView"
 import MessageView from '../views/MessageView.vue'
 import SetupView from '../views/Setup.vue'
 import MatchDetailsView from '../views/MatchDetails.vue'
-import TeamDetailsView from "@/views/TeamDetails";
+import TeamDetailsView from "@/views/TeamDetails"
+import MyTeamView from '@/views/MyTeam'
 import user from '../store/user'
 
 Vue.use(VueRouter)
@@ -52,6 +53,11 @@ const routes = [
     path: '/teamDetails',
     name: 'teamDetails',
     component: TeamDetailsView
+  },
+  {
+    path: '/myteam',
+    name: 'MyTeam',
+    component: MyTeamView
   }
 ]
 

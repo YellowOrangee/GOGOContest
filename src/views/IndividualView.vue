@@ -42,6 +42,9 @@
               <el-col :span="12" :offset="0">专业名称：{{user.studies.subject}}</el-col>
               <el-col :span="12" :offset="0">其他：xxxx</el-col>
             </el-row>
+            <el-row>
+              <el-col :span="4" :offset="20"><el-button type="primary" plain @click="toMyTeam">查看我的队伍</el-button></el-col>
+            </el-row>
           </el-tab-pane>
           <el-tab-pane label="组队信息" name="second">
             <div class="container">
@@ -118,6 +121,7 @@
 </template>
 
 <script>
+import router from '@/router';
 export default {
   name: 'IndividualView',
   data() {
@@ -148,6 +152,9 @@ export default {
       handleClick(tab, event) {
         console.log(tab, event);
       },
+      toMyTeam(){
+        router.push({path:"/MyTeam"})
+      }
     },
   mounted:async function(){
     //派发action获取个人信息
