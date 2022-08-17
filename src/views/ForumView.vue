@@ -174,12 +174,15 @@ export default {
   methods: {
     // 更新队伍列表
     upTeamData(num){
-      showAllForum(num).then((res)=>{
-        // console.log("所有队伍的信息：",res);
-        this.total=res.total; //总条目数
-        this.pageSize=res.pageSize; //每页的数量
-        this.list=res.list; //队伍信息
-      })
+      this.delay(()=>{
+        // 执行代码
+        showAllForum(num).then((res)=>{
+          // console.log("所有队伍的信息：",res);
+          this.total=res.total; //总条目数
+          this.pageSize=res.pageSize; //每页的数量
+          this.list=res.list; //队伍信息
+        })
+      },500)
     },
     //加载当前页的队伍列表
     toPrePage(nowPage){
@@ -188,7 +191,12 @@ export default {
     // 跳转队伍详情信息页面
     toTeamDetails(val){
       console.log("队伍序号",val);
-      this.$store.state.team.teamData=this.list[val];
+      this.$store.state.team.teamData=this.list[val]; // 队伍详情数据写入store
+      localStorage.setItem(           // 队伍详情数据写入本地储存，防止刷新就没
+        "teamData",
+        JSON.stringify(this.list[val])
+      );
+
       router.push({path:"/teamDetails"});
     },
   },
