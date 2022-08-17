@@ -107,7 +107,10 @@ export default {
   },
   methods: {
     clickCollection() {
-      this.collectionStatus=!this.collectionStatus;
+      this.delay(() => {
+        // 执行代码
+        this.collectionStatus=!this.collectionStatus;
+      }, 500)
     },
   },
   mounted() {

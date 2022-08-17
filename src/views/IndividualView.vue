@@ -150,8 +150,10 @@ export default {
       },
     },
   mounted:async function(){
-    //派发action获取个人信息
-    this.$store.dispatch('getUserInfo')
+    this.delay(()=>{
+      //派发action获取个人信息
+      this.$store.dispatch('getUserInfo')
+    },500)
   }
 }
 </script>

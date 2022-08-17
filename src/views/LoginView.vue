@@ -266,20 +266,24 @@ export default {
     signInSubmit() {
       this.$refs["signInForm"].validate((valid) => {
         if (valid) {
-          login(this.$data.signInForm).then((res) => {
-            console.log("登陆的返回", res);
-            if (res.success==true) {
-              this.$store.state.user.uInfo=this.$data.signInForm; // 登录数据写入store
-              localStorage.setItem(           // 登录数据写入本地储存，防止刷新就没
-                "uInfo",
-                JSON.stringify(this.$data.signInForm)
-              );
-              router.push({ path: "/" });     // 路由跳转
-              this.$message({message:"登录成功",type: "success",});
-            } else {
-              this.$message({message:"请输入正确的用户名和密码",type: "error",});
-            }
-          });
+          this.delay(()=>{
+            // 执行的代码
+            login(this.$data.signInForm).then((res) => {
+              console.log("登陆的返回", res);
+              if (res.success==true) {
+                this.$store.state.user.uInfo=this.$data.signInForm; // 登录数据写入store
+                localStorage.setItem(           // 登录数据写入本地储存，防止刷新就没
+                  "uInfo",
+                  JSON.stringify(this.$data.signInForm)
+                );
+                this.$data.signInForm=""  // 清空表单
+                router.push({ path: "/" });     // 路由跳转
+                this.$message({message:"登录成功",type: "success",});
+              } else {
+                this.$message({message:"请输入正确的用户名和密码",type: "error",});
+              }
+            });
+          },500)
         } else {
           this.$message({message:"你倒是输入点东西啊",type: "warning",});
           return false;
@@ -305,54 +309,64 @@ export default {
     //检测用户名是否已用
     findUserByName() {
       if (this.$data.signUpForm.signUpName != "") {
-        findUserByName(this.$data.signUpForm.signUpName).then((res) => {
-          if (res.success) {
-            Message({
-              duration: 2000,
-              message: res.success,
-              type: "success",
-            });
-            console.log(res);
-          } else {
-            Message({
-              duration: 2000,
-              message: res.msg,
-              type: "error",
-            });
-          }
-        });
+        this.delay(()=>{
+          findUserByName(this.$data.signUpForm.signUpName).then((res) => {
+            if (res.success) {
+              Message({
+                duration: 2000,
+                message: res.success,
+                type: "success",
+              });
+              console.log(res);
+            } else {
+              Message({
+                duration: 2000,
+                message: res.msg,
+                type: "error",
+              });
+            }
+          });
+        },1000)
       }
     },
     //检测邮箱是否可用
     judgeEmail() {
       if (this.$data.signUpForm.signUp_email != "") {
-        judgeEmail(this.$data.signUpForm.signUp_email).then((res) => {
-          if (res.success) {
-            Message({
-              duration: 2000,
-              message: "邮箱可用",
-              type: "success",
-            });
-            console.log(res);
-          } else {
-            Message({
-              duration: 2000,
-              message: res.msg,
-              type: "error",
-            });
-          }
-        });
+        this.delay(()=>{
+          judgeEmail(this.$data.signUpForm.signUp_email).then((res) => {
+            if (res.success) {
+              Message({
+                duration: 2000,
+                message: "邮箱可用",
+                type: "success",
+              });
+              console.log(res);
+            } else {
+              Message({
+                duration: 2000,
+                message: res.msg,
+                type: "error",
+              });
+            }
+          });
+        },1000)
       }
     },
     // 注册
     signUpSubmit() {
       this.$refs["signUpForm"].validate((valid) => {
         if (valid) {
-          register(this.$data.signUpForm).then((res) => {
-            console.log(res);
-            this.$message({ message: "注册成功", type: "success" });
-            this.toSignInPage();
-          });
+          this.delay(()=>{
+            register(this.$data.signUpForm).then((res) => {
+              if (res.success==true) {
+                this.$message({ message: "注册成功", type: "success" });
+                this.toSignInPage();
+                this.$data.signUpForm="" //清空注册表单
+              } else {
+                this.$message({ message: "注册失败", type: "error" });
+              }
+            });
+          },500)
         } else {
           console.log("请按要求填写");
           return false;

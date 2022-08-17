@@ -208,13 +208,15 @@ export default {
     },
     // 更新比赛信息
     upMatchData(num){
-      showMatch(num).then((res)=>{
-        res=JSON.parse(res) //服务器返回的是字符串，需要转成对象
-        console.log("所有比赛的信息：",res);
-        this.total=res.total; //总条目数
-        this.pageSize=res.pageSize; //每页的数量
-        this.list=res.list; //比赛信息
-      })
+      this.delay(()=>{
+        showMatch(num).then((res)=>{
+          res=JSON.parse(res) //服务器返回的是字符串，需要转成对象
+          console.log("所有比赛的信息：",res);
+          this.total=res.total; //总条目数
+          this.pageSize=res.pageSize; //每页的数量
+          this.list=res.list; //比赛信息
+        })
+      },500)
     },
     //加载当前页的比赛信息
     toPrePage(nowPage){

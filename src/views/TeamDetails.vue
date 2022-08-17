@@ -107,7 +107,9 @@ export default {
   },
   methods: {
     clickCollection() {
-      this.collectionStatus=!this.collectionStatus;
+      this.delay(()=>{
+        this.collectionStatus=!this.collectionStatus;
+      },500)
     },
   },
   mounted() {
