@@ -1,4 +1,8 @@
 @font-face {
-    font-family: "gogoCentest";
-    src: url('./庞门正道粗书体6.0.ttf');
+    font-family: 庞门正道粗书体;
+    src: url(./庞门正道粗书体6.0.ttf);
+}
+@font-face {
+    font-family: 方正楷体;
+    src: url(./FZKTJW.ttf);
 }

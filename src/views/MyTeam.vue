@@ -145,6 +145,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
 }
 .mainCard{
     width: 1356px;
@@ -155,7 +156,7 @@ export default {
     text-align: center;
 }
 .mainCard .cardTitle{
-    font-family: gogoCentest;
+    font-family: 庞门正道粗书体;
     width: 168px;
     height: 43px;
     color: rgba(16, 16, 16, 100);

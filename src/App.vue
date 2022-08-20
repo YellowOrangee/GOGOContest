@@ -73,14 +73,6 @@ a.router-link-active.router-link-exact-active {
   height: 43px;
   margin-top: 10px;
 }
-@font-face {
-  font-family: 庞门正道粗书体;
-  src: url(./font/庞门正道粗书体6.0.ttf);
-}
-@font-face {
-  font-family: 方正楷体;
-  src: url(./font/FZKTJW.ttf);
-}
 .portrait{
   width: 50px;
   height: 50px;
