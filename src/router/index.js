@@ -10,6 +10,7 @@ import MatchDetailsView from '../views/MatchDetails.vue'
 import TeamDetailsView from "@/views/TeamDetails"
 import MyTeamView from '@/views/MyTeam'
 import user from '../store/user'
+import ReleaseTeamInformation from "@/views/ReleaseTeamInformation";
 
 Vue.use(VueRouter)
 
@@ -58,6 +59,11 @@ const routes = [
     path: '/myteam',
     name: 'MyTeam',
     component: MyTeamView
+  },
+  {
+    path: '/releaseTeamInformation',
+    name: 'releaseTeamInformation',
+    component: ReleaseTeamInformation
   }
 ]
 
@@ -70,7 +76,7 @@ router.beforeEach((to, from, next) => {
   if (to.path==='/login') {
     next()
   }else{
-    console.log(user.state.uInfo);
+    // console.log(user.state.uInfo);
     if (user.state.uInfo) {
       next()
     }

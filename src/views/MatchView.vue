@@ -131,7 +131,7 @@
       <el-main>
         <el-row :gutter="0">
           <el-col :span="4" :offset="19">
-            <i class="el-icon-plus addMatch" @click="toReleaseCompetition"></i><span class="addMatch" @click="toReleaseCompetition">我要发布竞赛</span>
+            <i class="el-icon-plus addMatch" @click="toReleaseCompetition">我要发布竞赛</i>
           </el-col>
         </el-row>
         <el-row :gutter="0" class="mainContainer" v-for="(item, index) in list" :key="index">

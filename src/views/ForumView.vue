@@ -122,6 +122,13 @@
 
       <!-- 右侧 -->
       <el-main style="height: 1000px;">
+        <el-row :gutter="0">
+          <el-col :span="4" :offset="19">
+            <el-button type="text" @click="toReleaseTeam">
+              <i class="el-icon-circle-plus releaseTeamIcon">我要发布组队信息</i>
+            </el-button>
+          </el-col>
+        </el-row>
         <el-row :gutter="0" class="mainContainer" v-for="(item, index) in list" :key="index">
           <el-col :span="22" :offset="1">
             <el-card class="box-card">
@@ -199,6 +206,9 @@ export default {
 
       router.push({path:"/teamDetails"});
     },
+    toReleaseTeam(){
+      router.push({path:"/releaseTeamInformation"})
+    },
   },
   mounted() {
     this.upTeamData(1); // 加载第一页的队伍列表
@@ -253,6 +263,9 @@ export default {
 .el-main {
   background-color: #efeff4;
   width: 931px;
+}
+.releaseTeamIcon {
+  font-size: 16px;
 }
 .el-main .mainContainer{
   padding: 20px 0;

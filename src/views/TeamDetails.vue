@@ -4,7 +4,7 @@
     <div class="team_details_header">
       <el-image
       style="width: 90%; height: 450px; margin: 0 auto;"
-      :src="require('../assets/'+competition.img)"
+      :src="require('../assets/'+t_img)"
       fit="contain"></el-image>
     </div>
     <br><hr><br>
@@ -31,11 +31,15 @@
       <br><br><hr>
 
       <!-- 比赛信息 -->
-      <div class="teamTitle">比赛信息</div>
+      <div class="teamTitle">比赛信息</div><hr>
+      <el-row v-for="(game, index) in competition" :key="index">
+        <br>
+        <span class="teamApplyGames">{{game.name}}</span>
+        <el-link :href="game.web" target="_blank">{{game.web}}</el-link>
+        <br><br>
+      </el-row>
+
       <hr>
-      <h3>大赛官网</h3>
-      <el-link :href="competition.web" target="_blank">{{competition.web}}</el-link>
-      <br><hr>
       <div class="teamTitle">讨论区</div>
       <hr><br>
 
@@ -55,7 +59,7 @@
       <h3>队长</h3>
       <div class="team_status">
         <img :src="require('../assets/'+teamStatus.captain.head)" alt="头像">
-        <div>{{teamStatus.captain.name}}</div>
+        <div>{{team.t_captain}}</div>
       </div>
       <h3>队员</h3>
       <div class="team_status">
@@ -64,6 +68,11 @@
       </div>
       <h3>发布时间</h3>
       <p>{{teamStatus.teamTime}}</p>
+      <br><br>
+      <el-col :span="8" :offset="8">
+        <el-button type="primary" @click="applyThisTeam">申请加入该队伍</el-button>
+      </el-col>
+      
     </div>
   </div>
 </template>
@@ -74,6 +83,7 @@ export default {
   data() {
     return{
       // 队伍基本信息
+      t_img:'zt.jpg',
       team:{
         t_name:"队伍名",
         t_contact:"队长联系方式",
@@ -81,20 +91,27 @@ export default {
         t_demand:"队伍需求",
         t_ctime:"创建时间",
         t_type:"参赛类型",
+        t_img:'zt.jpg',
       },
       // 比赛信息
-      competition:{
+      competition:[
+        {
         img: 'zt.jpg',
         name: "中国国际“互联网+”大学生创新创业大赛",
         introduction: "示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字",
         supplement: "无",
         web: "https://cy.ncss.cn/",
-      },
+        },{
+        img: 'zt.jpg',
+        name: "中国国际“互联网+”大学生创新创业大赛",
+        introduction: "示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字",
+        supplement: "无",
+        web: "https://cy.ncss.cn/",
+        }],
       // 发布信息
       teamStatus:{
         captain:{
           head: "zt.jpg",       // 头像
-          name: "汪汪大队",   // 发布者
         },
         member:{
           head: "zt.jpg",       // 头像
@@ -111,6 +128,8 @@ export default {
         this.collectionStatus=!this.collectionStatus;
       },500)
     },
+    // 申请加入该队伍
+    applyThisTeam(){}
   },
   mounted() {
     this.team=this.$store.state.team.teamData;
@@ -124,7 +143,7 @@ export default {
   width: 1440px;
   margin-top: 40px;
 }
-#teamDetails h3 {
+#teamDetails h3,.teamApplyGames {
   border-left: 5px solid #2F8FFB;
   padding-left: 10px;
   margin-left: 60px;
@@ -148,7 +167,7 @@ export default {
   float: left;
 }
 .team_details_left .el-link {
-  margin-left: 60px;
+  margin-left: 20px;
 }
 /* 右下角 */
 .team_details_right {

@@ -5,11 +5,11 @@
       <el-form ref="signInForm" label-width="126px" :model="signInForm">
         <div id="signIn" v-if="signInPage">
           <el-row>
-            <el-col :span="14" :offset="5">
-              <img src="../assets/logo.png" />
+            <el-col :span="10" :offset="7">
+              <b style="font-family: 庞门正道粗书体;font-size: 55px;">GO GO Contest</b>
             </el-col>
           </el-row>
-          <br /><br />
+          <br/>
           <el-row>
             <el-col :span="16" :offset="4">
               <el-form-item
@@ -34,7 +34,6 @@
                   show-password
                 ></el-input>
               </el-form-item>
-              <br />
               <el-button
                 type="primary"
                 plain
@@ -395,16 +394,12 @@ export default {
 }
 /* 登录框 */
 .loginBox {
-  padding-top: 60px;
+  padding-top: 50px;
   height: 360px;
   width: 670px;
   background-color: #fff;
   box-shadow: -3px 2px 9px 7px #d5cfcf;
   border-radius: 50px;
-}
-.loginBox img {
-  width: 290.5px;
-  height: 46.9px;
 }
 .loginBox .el-button {
   font: 16px "方正楷体";

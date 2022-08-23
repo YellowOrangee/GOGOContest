@@ -32,6 +32,7 @@ export default {
 </script>
 
 <style>
+/* *{margin: 0;padding: 0;} */
 #app {
   margin-top: -10px;
   margin-left: -8px;
