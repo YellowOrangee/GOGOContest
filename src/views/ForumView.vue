@@ -13,11 +13,11 @@
         </el-row>
 
         <!-- 比赛 -->
-        <el-row :gutter="2">
+        <el-row>
           <el-col :span="7" :offset="1" class="title1">配置比赛信息</el-col>
         </el-row>
 
-        <el-row :gutter="0">
+        <el-row>
           <el-col :span="5" :offset="1" class="time1">报名时间：</el-col>
           <el-col :span="3">
             <div class="datePicker">
@@ -34,7 +34,7 @@
           </el-col>
         </el-row>
 
-        <el-row :gutter="0" justify="space-around" class="menu">
+        <el-row justify="space-around" class="menu">
           <el-col :span="6" :offset="5" class="a">
             <div>
               <el-dropdown size="small" split-button type="primary">
@@ -68,11 +68,11 @@
           </el-col>
         </el-row>
         <!--组队  -->
-        <el-row :gutter="2">
+        <el-row>
           <el-col :span="7" :offset="1" class="title2">配置组队信息</el-col>
         </el-row>
 
-        <el-row :gutter="0" class="information">
+        <el-row class="information">
           <el-col :span="5" :offset="1" class="time1">报名时间：</el-col>
           <el-col :span="3">
             <div class="datePicker">
@@ -89,7 +89,7 @@
           </el-col>
         </el-row>
 
-        <el-row :gutter="0" justify="space-around" class="menu">
+        <el-row justify="space-around" class="menu">
           <el-col :span="6" :offset="5" class="a">
             <div>
               <el-dropdown size="small" split-button type="primary">
@@ -122,14 +122,14 @@
 
       <!-- 右侧 -->
       <el-main style="height: 1000px;">
-        <el-row :gutter="0">
+        <el-row>
           <el-col :span="4" :offset="19">
             <el-button type="text" @click="toReleaseTeam">
               <i class="el-icon-circle-plus releaseTeamIcon">我要发布组队信息</i>
             </el-button>
           </el-col>
         </el-row>
-        <el-row :gutter="0" class="mainContainer" v-for="(item, index) in list" :key="index">
+        <el-row class="mainContainer" v-for="(item, index) in list" :key="index">
           <el-col :span="22" :offset="1">
             <el-card class="box-card">
             <div id="teamList" class="box-card-content" @click="toTeamDetails(index)">
@@ -207,7 +207,7 @@ export default {
       router.push({path:"/teamDetails"});
     },
     toReleaseTeam(){
-      router.push({path:"/releaseTeamInformation"})
+      router.push({path:"/releaseTeam"})
     },
   },
   mounted() {

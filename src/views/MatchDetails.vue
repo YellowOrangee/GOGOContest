@@ -27,7 +27,7 @@
         <hr>
         <!-- 该比赛组队信息 -->
         <el-main>
-          <el-row :gutter="0" class="mainContainer" v-for="(item, index) in team" :key="index">
+          <el-row class="mainContainer" v-for="(item, index) in team" :key="index">
             <el-col :span="22" :offset="1">
               <el-card class="box-card">
                 <div class="box-card-content">
@@ -69,7 +69,7 @@
       <h3>报名时间</h3>
       <p>{{releaseInformation.registrationTime}}</p>
       <h3>比赛时间</h3>
-      <p>{{releaseInformation.matchTime}}</p>
+      <p>{{competition.g_sTime}}至{{competition.g_eTime}}</p>
       <h3>主办方</h3>
       <p>{{releaseInformation.sponsor}}</p>
       <h3>竞赛级别</h3>
@@ -98,7 +98,6 @@ export default {
         head: "zt.jpg",       // 头像
         issuer: "汪汪大队",   // 发布者
         registrationTime: "2022年4月5日 24:00 至 2022年6月5日12:00", // 报名时间
-        matchTime: "2022年4月5日 24:00 至 2022年6月5日12:00",        // 比赛时间
         sponsor: "教育部",   // 主办方
         level: "国家级"      // 竞赛级别
       },

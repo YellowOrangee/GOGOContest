@@ -106,7 +106,7 @@
                       style="text-align: left;">
                     <el-image v-if="imageUrl" :src="imageUrl" class="avatar" fit="cover"></el-image>
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    <div class="el-upload__tip" slot="tip">只能是 JPG 格式，且大小不能超过 2MB</div>
+                    <div class="el-upload__tip" slot="tip">图片大小不能超过 2MB</div>
                   </el-upload>
                 </el-form-item>
                 <!-- 队伍名称 -->
@@ -215,14 +215,14 @@
 
 <script>
 export default {
-  name: "ReleaseTeamInformation",
+  name: "ReleaseTeam",
   data() {
-    var checkTeamName = (rule, value, callback) => {
-      if (value.length<2) {
-        this.teamNameIcon=false;  //隐藏格式正确图标
+    const checkTeamName = (rule, value, callback) => {
+      if (value.length < 2) {
+        this.teamNameIcon = false;  //隐藏格式正确图标
         callback(new Error("队伍名称长一点嘛，别小于2"));
       } else {
-        this.teamNameIcon=true;   //显示格式正确图标
+        this.teamNameIcon = true;   //显示格式正确图标
         callback();
       }
     };
@@ -339,16 +339,16 @@ export default {
     // 上传照片前确认格式
     beforeAvatarUpload(file) {
       console.log(file);
-      const isJPG = /image\/\w+/.test(file.raw.type)  // file.type === 'image/jpeg';
+      const isIMG = /image\/\w+/.test(file.raw.type)  // file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+      if (!isIMG) {
+        this.$message.error('只能传图片！');
       } else if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       } else{
         this.imageUrl = URL.createObjectURL(file.raw);
       }
-      return isJPG && isLt2M;
+      return isIMG && isLt2M;
     },
     // 上传图片数量超出
     imgBeyond(files, fileList){
