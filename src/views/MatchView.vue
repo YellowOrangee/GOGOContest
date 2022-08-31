@@ -20,11 +20,11 @@
         </el-row>
 
         <!-- 比赛 -->
-        <el-row :gutter="2">
+        <el-row>
           <el-col :span="7" :offset="2" class="title1">配置比赛信息</el-col>
         </el-row>
 
-        <el-row :gutter="0">
+        <el-row>
           <el-col :span="5" :offset="2" class="time1">报名时间：</el-col>
           <el-col :span="3">
             <div class="datePicker">
@@ -41,7 +41,7 @@
           </el-col>
         </el-row>
 
-        <el-row :gutter="0" justify="space-around" class="menu">
+        <el-row justify="space-around" class="menu">
           <el-col :span="6" :offset="5" class="a">
             <div>
               <el-dropdown size="small" split-button type="primary">
@@ -75,11 +75,11 @@
           </el-col>
         </el-row>
         <!--组队  -->
-        <el-row :gutter="2">
+        <el-row>
           <el-col :span="7" :offset="2" class="title2">配置组队信息</el-col>
         </el-row>
 
-        <el-row :gutter="0" class="information">
+        <el-row class="information">
           <el-col :span="5" :offset="2" class="time1">报名时间：</el-col>
           <el-col :span="3">
             <div class="datePicker">
@@ -96,7 +96,7 @@
           </el-col>
         </el-row>
 
-        <el-row :gutter="0" justify="space-around" class="menu">
+        <el-row justify="space-around" class="menu">
           <el-col :span="6" :offset="5" class="a">
             <div>
               <el-dropdown size="small" split-button type="primary">
@@ -129,12 +129,14 @@
 
       <!-- 右侧 -->
       <el-main>
-        <el-row :gutter="0">
+        <el-row>
           <el-col :span="4" :offset="19">
-            <i class="el-icon-plus addMatch" @click="toReleaseCompetition">我要发布竞赛</i>
+            <el-button type="text" class="addMatch">
+              <i class="el-icon-plus" @click="toReleaseCompetition">我要发布竞赛</i>
+            </el-button>
           </el-col>
         </el-row>
-        <el-row :gutter="0" class="mainContainer" v-for="(item, index) in list" :key="index">
+        <el-row class="mainContainer" v-for="(item, index) in list" :key="index">
           <el-col :span="22" :offset="1">
             <el-card class="box-card">
             <div id="matchList" class="box-card-content" @click="toDetail(index)">
@@ -205,7 +207,7 @@ export default {
       router.push({path:'/matchDetails'})
     },
     toReleaseCompetition(){
-      console.log("1")
+      router.push({path:'/releaseMatch'})
     },
     // 更新比赛信息
     upMatchData(num){
@@ -246,12 +248,10 @@ export default {
 .el-carousel__item:nth-child(2n+1) {
   background-color: #d3dce6;
 }
-.addMatch{
-  color: rgba(47, 143, 251, 100);
+.addMatch i{
   font-size: 16px;
   text-align: left;
   font-family: SourceHanSansSC-regular;
-  cursor: pointer;
 }
 #matchList{
   cursor: pointer;

@@ -18,27 +18,27 @@
       <div class="bottonContainer-main">
         <el-tabs v-model="activeName" @tab-click="handleClick" stretch lazy>
           <el-tab-pane label="基本信息" name="first">
-            <el-row :gutter="20">
+            <el-row>
               <el-col :span="12" :offset="0">姓名：{{this.$store.state.user.userInfo.u_name}}</el-col>
               <el-col :span="12" :offset="0">电话号码：{{this.$store.state.user.userInfo.u_phone}}</el-col>
             </el-row>
-            <el-row :gutter="20">
+            <el-row>
               <el-col :span="12" :offset="0">性别：{{this.$store.state.user.userInfo.u_sex}}</el-col>
               <el-col :span="12" :offset="0">QQ号：{{user.QQ}}</el-col>
             </el-row>
-            <el-row :gutter="20">
+            <el-row>
               <el-col :span="12" :offset="0">地区：{{user.address}}</el-col>
               <el-col :span="12" :offset="0">微信号：{{user.VX}}</el-col>
             </el-row>
-            <el-row :gutter="20">
+            <el-row>
               <el-col :span="12" :offset="0">学校名称：{{user.studies.school}}</el-col>
               <el-col :span="12" :offset="0">电子邮箱：{{user.mail}}</el-col>
             </el-row>
-            <el-row :gutter="20">
+            <el-row>
               <el-col :span="12" :offset="0">学院名称：{{user.studies.college}}</el-col>
               <el-col :span="12" :offset="0">个人爱好：{{user.hobby}}</el-col>
             </el-row>
-            <el-row :gutter="20">
+            <el-row>
               <el-col :span="12" :offset="0">专业名称：{{user.studies.subject}}</el-col>
               <el-col :span="12" :offset="0">其他：xxxx</el-col>
             </el-row>
