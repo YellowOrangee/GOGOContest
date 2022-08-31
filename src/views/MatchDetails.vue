@@ -79,6 +79,7 @@
 </template>
 
 <script>
+// import{addCollect} from "@/api/index"
 export default {
   name: "MatchDetails",
   data() {
@@ -109,6 +110,7 @@ export default {
     clickCollection() {
       this.delay(() => {
         // 执行代码
+        // addCollect()
         this.collectionStatus=!this.collectionStatus;
       }, 500)
     },

@@ -31,14 +31,12 @@ export const setInfo = (data)=>Service({url:`/user/setInfo?`,data,method:'post'}
 
 // 展示所有队伍的招募信息(无筛选条件)
 //  /teamForum/showAllForum/page    GET 参数： pageNum
-export const showAllForum = (data)=>Service({
-    url:`/teamForum/showAllForum/page?pageNum=${data}`,
-    method:'get'
-})
+export const showAllForum = (data)=>Service({url:`/teamForum/showAllForum/page?pageNum=${data}`,method:'get'})
 
 // 展示所有比赛信息
 // /game/showGame/page
-export const showMatch = (data)=>Service({
-    url:`/game/showGame/page?pageNum=${data}`,
-    method:'get'
-})
+export const showMatch = (data)=>Service({url:`/game/showGame/page?pageNum=${data}`,method:'get'})
+
+//收藏比赛
+// /game/addCollect   POST 参数 无
+export const addCollect = ()=>Service({url:`/game/addCollect`,method:'post'})
