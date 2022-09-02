@@ -3,6 +3,7 @@
     <div class="topContainer">
       <div class="topContainer-left">
         <img :src="require('../assets/'+user.picture)" alt="" class="portrait">
+        <!-- <img src="http://60.205.2.92:8888/www/server/tomcat/webapps/gogoContest/fb5e8affce7c4dbdb4e8b322eadabbf6.png"  alt="" class="portrait"> -->
         <div class="information">
           <div><span>账号: </span><span>{{user.account}}</span></div>
           <div><span>用户昵称：</span><span>{{user.id}}</span></div>

@@ -111,7 +111,6 @@
                   placeholder="请输入用户名"
                   v-model="signUpForm.signUpName"
                   clearable
-                  @blur="findUserByName"
                 ></el-input>
               </el-form-item>
               <el-form-item label="密码：" prop="signUpPass">
@@ -152,9 +151,8 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import { login } from "@/api/index";
-import { register } from "@/api/index";
-import { findUserByName } from "@/api/index";
 import { judgeEmail } from "@/api/index";
+import {register} from "@/api/index"
 import { Message } from "element-ui";
 import router from "@/router";
 
@@ -269,17 +267,17 @@ export default {
             // 执行的代码
             login(this.$data.signInForm).then((res) => {
               console.log("登陆的返回", res);
-              if (res.success==true) {
+              if (res.state==200) {
                 this.$store.state.user.uInfo=this.$data.signInForm; // 登录数据写入store
-                localStorage.setItem(           // 登录数据写入本地储存，防止刷新就没
+                localStorage.setItem(          // 登录数据写入本地储存，防止刷新就没
                   "uInfo",
                   JSON.stringify(this.$data.signInForm)
                 );
                 this.$data.signInForm=""  // 清空表单
-                router.push({ path: "/" });     // 路由跳转
+                router.push({ path: "/" });    // 路由跳转
                 this.$message({message:"登录成功",type: "success",});
               } else {
-                this.$message({message:"请输入正确的用户名和密码",type: "error",});
+                this.$message({message:res.msg,type: "error",});
               }
             });
           },500)
@@ -304,29 +302,6 @@ export default {
           return false;
         }
       });
-    },
-    //检测用户名是否已用
-    findUserByName() {
-      if (this.$data.signUpForm.signUpName != "") {
-        this.delay(()=>{
-          findUserByName(this.$data.signUpForm.signUpName).then((res) => {
-            if (res.success) {
-              Message({
-                duration: 2000,
-                message: res.success,
-                type: "success",
-              });
-              console.log(res);
-            } else {
-              Message({
-                duration: 2000,
-                message: res.msg,
-                type: "error",
-              });
-            }
-          });
-        },1000)
-      }
     },
     //检测邮箱是否可用
     judgeEmail() {

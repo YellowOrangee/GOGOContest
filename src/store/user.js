@@ -19,7 +19,16 @@ const actions = {
     if (result[0].u_id) {
       commit('GETUSERINFO',result[0])
     }
-  }
+  },
+  // //用户注册
+  // async userSegister({commit},data){
+  //   let result = await register(data);
+  //   console.log(data);
+  //   console.log(result);
+  //   if (result[0].u_id) {
+  //     commit('GETUSERINFO',result[0])
+  //   }
+  // }
 };
 const getters = {
 };

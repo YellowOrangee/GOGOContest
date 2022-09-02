@@ -5,7 +5,10 @@ axios.defaults.withCredentials = true;
 let loadingObj = null
 const Service = axios.create({
     baseURL:'/gogoContest',
-    timeout:5000
+    timeout:5000,
+    headers:{
+        token:localStorage.getItem("token")?localStorage.getItem("token"):''
+    }
 });
 //请求拦截
 Service.interceptors.request.use((config)=>{
@@ -15,12 +18,15 @@ Service.interceptors.request.use((config)=>{
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
         });
-    return config; 
+    return config;
 });
 
 //响应拦截
 Service.interceptors.response.use((res)=>{
     loadingObj.close();
+    if(res.config.url.indexOf("login")!==-1){
+        localStorage.setItem("token",JSON.stringify(res.data.token))
+    }
     return res.data;
 },(error)=>{
     loadingObj.close();

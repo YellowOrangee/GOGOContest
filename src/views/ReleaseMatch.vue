@@ -38,23 +38,23 @@
                 </el-col>
               </el-row>
 
-              <!-- 上传竞赛图片 -->
-              <el-form-item label="竞赛图片：" prop="matchImg">
+              <!-- 上传竞赛文件 -->
+              <el-form-item label="竞赛文件：" prop="matchImg">
                 <el-upload
-                    class="avatar-uploader"
+                    ref="uploadFile"
                     drag
+                    action="sys/file/upload"
+                    :multiple="false"
+                    :limit="5"
+                    accept=".doc,.docx, .zip, .rar"
                     :auto-upload="false"
-                    ref="uploadImg"
-                    :action="action"
-                    :limit=1
+                    :before-upload="beforeUpload"
                     :on-success="uploadSuccess"
                     :on-error="uploadError"
-                    :on-change="beforeAvatarUpload"
-                    :on-exceed="imgBeyond"
-                    style="text-align: left;">
-                  <el-image v-if="imageUrl" :src="imageUrl" class="avatar" fit="cover"></el-image>
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                  <div class="el-upload__tip" slot="tip">图片大小不能超过 2MB</div>
+                    :on-exceed="uploadExceed">
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <div class="el-upload__tip" slot="tip">只能上传doc/zip/rar文件，且不超过10M</div>
                 </el-upload>
               </el-form-item>
 
@@ -220,7 +220,11 @@ export default {
           { required: true,type: 'url', message: "请输入正确的url，格式例子：https://www.baidu.com", trigger: "change" },
           { type: 'url', message: "请输入正确的url，格式例子：https://www.baidu.com", trigger: "blur" },
         ]
-      }
+      },
+      //设置文件信息
+      dialogImageUrl: '',
+      dialogVisible: false,
+      disabled: false
     }
   },
   methods: {
@@ -259,41 +263,69 @@ export default {
       });
     },
     // http-request可覆盖默认上传行为，使用方法百度elementui http-request
-    // 上传照片成功
-    uploadSuccess(res, file) {
-      console.log('上传成功',file);
-      this.imageUrl = URL.createObjectURL(file.raw);
-      this.$message.error('上传成功');
-    },
-    // 上传照片失败
-    uploadError(res,file){
-      console.log('上传失败',file);
-      this.imageUrl = URL.createObjectURL(file.raw);
-      this.$message.error('上传失败');
-    },
-    // 上传照片前确认格式
-    beforeAvatarUpload(file) {
-      console.log(file);
-      const isIMG = /image\/\w+/.test(file.raw.type)  // file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isIMG) {
-        this.$message.error('只能传图片！');
-      } else if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!');
-      } else{
-        this.imageUrl = URL.createObjectURL(file.raw);
-      }
-      return isIMG && isLt2M;
-    },
-    // 上传图片数量超出
-    imgBeyond(files, fileList){
-      console.log('files',files);
-      console.log('fileList',fileList);
+        // 文件上传前对文件类型、文件大小判断限制
+        beforeUpload(file) {
+            const { name, size } = file;
+            const index = name.lastIndexOf('.');
+            // 判断文件名是否有后缀，没后缀文件错误
+            if(index === -1) {
+                this.$notify.error({
+                    title: '错误',
+                    message: `${name}文件错误，请重新上传！`,
+                });
+                return false;
+            }
+            const fileType = name.substr(index + 1);
+            const acceptFileTypes = ['doc','docx', 'zip', 'rar'];
+            // 判断文件类型
+            if(!acceptFileTypes.includes(fileType)) {
+                this.$notify.error({
+                    title: '错误',
+                    message: `${name}文件类型错误，请重新上传！`,
+                });
+                return false;
+            }
+            // 判断文件大小
+            if(size > 10*1024*1024) {
+                this.$notify.error({
+                    title: '错误',
+                    message: `${name}文件大小超过10M，请重新上传！`,
+                });
+                return false;
+            }
+            // 默认true
+            return true;
+        },
+        // 上传接口调取成功status为200
+        uploadSuccess(res, file) {
+            if(res.code === 200) {  // 文件上传成功
+                this.$notify.success({
+                    title:'成功',
+                    message: `${file.name}文件上传成功！`,
+                });
+            } else {
+                this.uploadError();
+            }
+        },
+        // 文件上传失败
+        uploadError() {
+            this.$notify.error({
+                title: '错误',
+                message: '文件上传失败！',
+            });
+        },
+        // 文件个数超过限制
+        uploadExceed(files, fileList) {
+            this.$notify.warning({
+                title:'提示',
+                message: `当前限制一次可选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`,
+            });
+        },
     },
     saveMatch(){
       this.$refs['match'].validate((valid) => {
         if (valid) {
-          this.$refs.uploadImg.submit();  // 上传图片
+          this.$refs.uploadFile.submit();  // 上传文件
           this.$message({message:"保存成功",type: "success",});
           this.$refs["match"].resetFields();  // 清空表单
         } else {
@@ -305,7 +337,7 @@ export default {
     submitMatch(){
       this.$refs['match'].validate((valid) => {
         if (valid) {
-          this.$refs.uploadImg.submit();  // 上传图片
+          this.$refs.uploadFile.submit(); // 上传文件
           this.$message({message:"发布成功",type: "success",});
           this.$refs["match"].resetFields();  // 清空表单
         } else {
@@ -314,8 +346,7 @@ export default {
         }
       });
     },
-  },
-}
+  }
 </script>
 
 <style scoped>
