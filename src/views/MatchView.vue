@@ -24,13 +24,13 @@
               ></el-input>
             </div>
           </el-col>
-          <el-button type="primary" icon="el-icon-search" @click="search(content)">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>
         </el-row>
 
         <!-- 比赛 -->
         <el-row>
           <el-col :span="7" :offset="2" class="title1">配置比赛信息</el-col>
-          <el-button type="primary" icon="el-icon-search" @click="search1()">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="search1()" size="small"></el-button>
         </el-row>
 
         <el-row>
@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import { showMatch,searchByPage,searchByCondition} from "@/api";
+import { showMatch} from "@/api";
 import router from "@/router";
 
 export default {
@@ -180,15 +180,18 @@ export default {
       console.log(this.$data.grade);
     },
     //按类型级别时间搜索
-    search1(){
+    async search1(){
       const {sTime,eTime} = this.$data.time;
-      const {type,grade} = this;
-      searchByCondition({sTime,eTime,type,grade});
+      // const {type,grade} = this;
+      // searchByCondition({sTime,eTime,type,grade});
+      this.$store.dispatch("getMatchListByCondition",{sTime,eTime,type:"yes",grade:"yes"});
+      this.$data.list = this.$store.state.match.list;
     },
     //搜索
-    async search(content){
-      let result = await searchByPage(content);
-      this.$data.list = result
+    async search(){
+      const {content}=this;
+      this.$store.dispatch("getMatchListByPage",content);
+      this.$data.list = this.$store.state.match.list;
       console.log("输入内容",content);
     },
     //跳转详情页
