@@ -45,16 +45,19 @@ export const addTeamMember = (memberName,fid)=>Service({url: `/team/addMembers?m
 // 发布招募信息
 // post 参数:队伍名 队伍参赛名 队伍需求(非必选) 队伍人数(非必选) 参赛类型(非必选) 是否公开(公开 未公开) 队长联系方式 队伍相关图片
 export const releaseTeam = (data)=>Service({
-    url:`/teamForum/PublishRecruitmentInfo
-        ?t_name=${data.t_name}
-        &t_gname=${data.t_gname}
-        &t_demand=${data.t_demand}
-        &t_count=${data.t_count}
-        $t_type=${data.t_type}
-        &t_public=${data.t_public}
-        &t_contact=${data.t_contact}
-        image=${data.image}`,
-    method:"post"
+    url:`/teamForum/PublishRecruitmentInfo?t_name=${data.teamName}&t_demand=${data.teamIntro}&t_count=${data.memberNum}&t_contact=${data.teamPhone}&t_public=${data.teamPublic}$t_type=${data.teamType}&t_gname=${data.game1.name}&t_gid=${data.game1.id}`
+//&image=${data.imgFile}
+    ,method:"post"
+})
+export const text = ()=>Service({
+    url:`/teamForum/PublishRecruitmentInfo?t_name=我不认为你队&t_demand=欢迎大家前来组队哦&t_count=4&t_contact=3103720798&t_public=公开&t_type=大赛组&t_gname=你别和我作队&t_gid=2015`
+    ,method:'post'
+})
+// 发布组队页面下拉框搜索比赛
+// get 参数：keyWords 参赛名或大赛举办方
+export const queryMatchForTeam = (keyWords)=>Service({
+    url:`/game/queryNameAndSponsor?keyWords=${keyWords}`,
+    method:'get'
 })
 
 // 展示所有比赛信息
