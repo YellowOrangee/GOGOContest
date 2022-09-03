@@ -273,6 +273,7 @@ export default {
                 );
                 this.$data.signInForm=""  // 清空表单
                 router.push({ path: "/" });    // 路由跳转
+                location.reload([true])
                 this.$message({message:"登录成功",type: "success",});
               } else {
                 this.$message({message:res.msg,type: "error",});

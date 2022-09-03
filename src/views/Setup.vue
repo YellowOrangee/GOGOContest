@@ -61,6 +61,7 @@ export default {
         router.push({path:'/login'});
         var localStorage = window.localStorage;
         localStorage.clear();
+        location.reload([true])
       }
     }
 }

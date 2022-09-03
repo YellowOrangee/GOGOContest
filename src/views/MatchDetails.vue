@@ -124,7 +124,7 @@ export default {
       this.delay(() => {
         // 执行代码
         cancelCollect().then(res=>{
-          console.log(res)
+          console.log(3,res)
           this.$data.collectionStatus = !res.success
         })
       }, 500)
