@@ -57,7 +57,7 @@
         <i class="el-icon-star-on"></i>
       </div>
       <div v-if=collectionStatus>
-        <el-button type="primary" plain class="match_details_but" @click="clickCollection">点击取消收藏</el-button>
+        <el-button type="primary" plain class="match_details_but" @click="clickCancelCollect">点击取消收藏</el-button>
         <i class="el-icon-star-on" style="color: gold;"></i>
       </div>
       <br><br>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-// import{addCollect} from "@/api/index"
+import{addCollect,judgeCollection,showDetail} from "@/api/index"
 export default {
   name: "MatchDetails",
   data() {
@@ -106,16 +106,45 @@ export default {
     }
   },
   methods: {
+    //收藏比赛
     clickCollection() {
       this.delay(() => {
         // 执行代码
-        // addCollect()
-        this.collectionStatus=!this.collectionStatus;
+        addCollect().then(res=>{
+          if(res.success){
+            this.collectionStatus=!this.collectionStatus;
+          }
+        })
       }, 500)
     },
+    //取消收藏
+    clickCancelCollect(){
+      this.delay(() => {
+        // 执行代码
+        addCollect().then(res=>{
+          if(res.success){
+            this.collectionStatus=!this.collectionStatus;
+          }
+        })
+      }, 500)
+    },
+    judgmentCollection: function(){
+      judgeCollection().then(res=>{
+        console.log(res)
+      })
+    },
+    showMatchDetail(g_id){
+      showDetail(g_id).then(res=>{
+        console.log(1,res)
+        console.log(2,g_id)
+      })
+    }
   },
   mounted() {
-    this.competition=this.$store.state.match.matchData
+    this.competition=this.$store.state.match.matchData;
+    this.judgmentCollection();
+    // this.showMatchDetail(this.$route.query.g_id);
+    this.showMatchDetail(20220002);
   },
 }
 </script>
