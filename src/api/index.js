@@ -77,6 +77,10 @@ export const addCollect = ()=>Service({url:`/game/addCollect`,method:'post'})
 //  /game/cancelCollect  post
 export const cancelCollect = ()=>Service({url:"/game/cancelCollect",method:"post"})
 
+//收藏量
+//  /game/count  post 参数 fa_gid
+export const count = (id)=>Service({url:`/game/count?fa_gid=${id}`,method:'post'})
+
 //按分页搜索比赛
 //  /game/queryGameByName/page get 参数 pageNum
 export const searchByPage = (data)=>Service({url:`/game/queryGameByName/page?name=${data}`+`&pageNum=1`,method:"get"})

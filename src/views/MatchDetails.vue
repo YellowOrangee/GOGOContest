@@ -52,6 +52,7 @@
 
     <!-- 右下角 -->
     <div class="match_details_right">
+      <span class="count">收藏量：{{collectionCount}}</span>
       <div v-if=!collectionStatus>
         <el-button type="primary" class="match_details_but" @click="clickCollection">点击收藏</el-button>
         <i class="el-icon-star-on"></i>
@@ -79,7 +80,7 @@
 </template>
 
 <script>
-import{addCollect,judgeCollection,showDetail,cancelCollect} from "@/api/index"
+import{addCollect,judgeCollection,showDetail,cancelCollect,count} from "@/api/index"
 export default {
   name: "MatchDetails",
   data() {
@@ -103,6 +104,7 @@ export default {
         level: "国家级"      // 竞赛级别
       },
       collectionStatus:"",//收藏
+      collectionCount:""//收藏量
     }
   },
   methods: {
@@ -138,12 +140,18 @@ export default {
         console.log(1,res)
         console.log(2,g_id)
       })
+    },
+    collectCount(g_id){
+      count(g_id).then(res=>{
+        this.$data.collectionCount = res
+      })
     }
   },
   mounted() {
     this.competition=this.$store.state.match.matchData;
     this.judgmentCollection();
     this.showMatchDetail(this.$route.query.g_id);
+    this.collectCount(this.$route.query.g_id)
     // this.showMatchDetail();
   },
 }
@@ -206,5 +214,10 @@ export default {
 #match_details_right_issuer div {
   float: left;
   line-height: 36px;
+}
+.count{
+  position:absolute;
+  top: 620px;
+  right: 300px;
 }
 </style>
