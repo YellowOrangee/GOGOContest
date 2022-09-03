@@ -150,9 +150,7 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import { login } from "@/api/index";
-import { judgeEmail } from "@/api/index";
-import {register} from "@/api/index"
+import { login,judgeEmail,register,findPwd } from "@/api/index";
 import { Message } from "element-ui";
 import router from "@/router";
 
@@ -292,11 +290,14 @@ export default {
       this.$refs["forgetForm"].validate((valid) => {
         if (valid) {
           /* 这里可以写发邮箱的代码 */
-          this.$message({
+          findPwd(this.$data.forgetForm.forget_email).then((res)=>{
+            console.log(res)
+            this.$message({
             message:
-              "发送验证信息成功，三个工作日内将会收到验证信息，请耐心等待",
+              "密码"+res.msg,
             type: "success",
           });
+          })
         } else {
           console.log("请输入正确的邮箱地址");
           return false;

@@ -204,7 +204,7 @@ export default {
         "matchData",
         JSON.stringify(this.list[id])
       );
-      router.push({ path: "/matchDetails", query: { g_id } });
+      router.push({ path: "/matchDetails", query: { g_id:g_id } });
     },
     toReleaseCompetition() {
       router.push({ path: "/releaseMatch" });
@@ -227,8 +227,8 @@ export default {
     },
   },
   mounted() {
-
     this.upMatchData(1); // 加载第一页的队伍列表
+    console.log(JSON.parse(localStorage.getItem("token")))
   },
 };
 </script>

@@ -7,7 +7,7 @@ const Service = axios.create({
     baseURL:'/gogoContest',
     timeout:5000,
     headers:{
-        token:localStorage.getItem("token")?localStorage.getItem("token"):''
+        token:localStorage.getItem("token")?JSON.parse(localStorage.getItem("token")):''
     }
 });
 //请求拦截

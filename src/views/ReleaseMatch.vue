@@ -325,6 +325,7 @@ export default {
     saveMatch(){
       this.$refs['match'].validate((valid) => {
         if (valid) {
+          console.log(this.$data.match)
           this.$refs.uploadFile.submit();  // 上传文件
           this.$message({message:"保存成功",type: "success",});
           this.$refs["match"].resetFields();  // 清空表单

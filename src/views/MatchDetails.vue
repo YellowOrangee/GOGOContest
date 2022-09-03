@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import{addCollect,judgeCollection,showDetail} from "@/api/index"
+import{addCollect,judgeCollection,showDetail,cancelCollect} from "@/api/index"
 export default {
   name: "MatchDetails",
   data() {
@@ -102,7 +102,7 @@ export default {
         sponsor: "教育部",   // 主办方
         level: "国家级"      // 竞赛级别
       },
-      collectionStatus: false,//收藏
+      collectionStatus:"",//收藏
     }
   },
   methods: {
@@ -111,8 +111,8 @@ export default {
       this.delay(() => {
         // 执行代码
         addCollect().then(res=>{
-          if(res.success){
-            this.collectionStatus=!this.collectionStatus;
+          if(res.state){
+            this.collectionStatus=res.state;
           }
         })
       }, 500)
@@ -121,16 +121,16 @@ export default {
     clickCancelCollect(){
       this.delay(() => {
         // 执行代码
-        addCollect().then(res=>{
-          if(res.success){
-            this.collectionStatus=!this.collectionStatus;
-          }
+        cancelCollect().then(res=>{
+          console.log(res)
+          this.$data.collectionStatus = !res.success
         })
       }, 500)
     },
     judgmentCollection: function(){
       judgeCollection().then(res=>{
         console.log(res)
+        this.$data.collectionStatus = res.state
       })
     },
     showMatchDetail(g_id){
@@ -143,8 +143,8 @@ export default {
   mounted() {
     this.competition=this.$store.state.match.matchData;
     this.judgmentCollection();
-    // this.showMatchDetail(this.$route.query.g_id);
-    this.showMatchDetail(20220002);
+    this.showMatchDetail(this.$route.query.g_id);
+    // this.showMatchDetail();
   },
 }
 </script>

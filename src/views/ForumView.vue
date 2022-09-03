@@ -132,8 +132,8 @@
         <el-row class="mainContainer" v-for="(item, index) in list" :key="index">
           <el-col :span="22" :offset="1">
             <el-card class="box-card">
-            <div id="teamList" class="box-card-content" @click="toTeamDetails(index)">
-              <img :src="require('../assets/'+src)" alt="">
+            <div id="teamList" class="box-card-content" @click="toTeamDetails(item.f_id)">
+              <img :src="item.t_image" alt="">
               <div class="main1">
                 <span>{{item.t_name}}</span>
                 <div class="content">
@@ -189,7 +189,7 @@ export default {
       this.delay(()=>{
         // 执行代码
         showAllForum(num).then((res)=>{
-          // console.log("所有队伍的信息：",res);
+          console.log("所有队伍的信息：",res);
           this.total=res.total; //总条目数
           this.pageSize=res.pageSize; //每页的数量
           this.list=res.list; //队伍信息
@@ -209,7 +209,7 @@ export default {
         JSON.stringify(this.list[val])
       );
 
-      router.push({path:"/teamDetails"});
+      router.push({path:"/teamDetails",query:{id:val}});
     },
     toReleaseTeam(){
       router.push({path:"/releaseTeam"})
