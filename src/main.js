@@ -5,7 +5,10 @@ import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import "@/font/font.css";
+import dayjs from 'dayjs'
 
+
+Vue.prototype.dayjs = dayjs;//可以全局使用dayjs
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false
