@@ -46,13 +46,28 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Admin adminLogin(String name, String password) {
-        return this.userMapper.adminLogin(name,password);
+    public String findPwdByEmail(String email) {
+        return this.userMapper.findPwdByEmail(email);
     }
 
     @Override
-    public String findIdentity(String name,String password) {
-        return this.userMapper.findIdentity(name,password);
+    public int updateImage(User user) {
+        return userMapper.updateImage(user);
+    }
+
+    @Override
+    public String judgeImage(int uid) {
+        return this.userMapper.judgeImage(uid);
+    }
+
+    @Override
+    public String delImage(int uid) {
+        return this.userMapper.delImage(uid);
+    }
+
+    @Override
+    public int findIdentity(int uid) {
+        return this.userMapper.findIdentity(uid);
     }
 
     @Override

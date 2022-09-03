@@ -2,10 +2,9 @@ package com.huang.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.huang.dao.TeamMapper;
 import com.huang.dao.teamForumMapper;
 import com.huang.pojo.Forum;
-import com.huang.pojo.Page;
+import com.huang.pojo.Game;
 import com.huang.pojo.Reply;
 import com.huang.vo.ForumVo;
 
@@ -86,7 +85,32 @@ public class teamForumServiceImpl implements teamForumService{
     }
 
     @Override
-    public List<Forum> showTeamByCaptainS(String captain) {
-        return this.teamForumMapper.showTeamByCaptain(captain);
+    public int judgeDelRepIdentity(int rid) {
+        return this.teamForumMapper.judgeDelRepIdentity(rid);
+    }
+
+    @Override
+    public List<Forum> showTeamByCaptainId(int id) {
+        return this.teamForumMapper.showTeamByCaptainId(id);
+    }
+
+    @Override
+    public int queryUidByFid(Integer id) {
+        return this.teamForumMapper.queryUidByFid(id);
+    }
+
+    @Override
+    public Game jumpToGameById(int gid) {
+        return this.teamForumMapper.jumpToGameById(gid);
+    }
+
+    @Override
+    public Forum queryForumById(int fid) {
+        return this.teamForumMapper.queryForumById(fid);
+    }
+
+    @Override
+    public int updatePublishRecruitmentInfo(Forum forum) {
+        return this.teamForumMapper.updatePublishRecruitmentInfo(forum);
     }
 }

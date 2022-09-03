@@ -5,6 +5,7 @@ package com.huang.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class User {
     private int u_id;
     private String u_name;
-    private byte [] profile;
+    private String u_image;
     private String u_password;
     private String u_email;
     private String u_sex;

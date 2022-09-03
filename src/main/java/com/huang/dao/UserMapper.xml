@@ -6,13 +6,32 @@
 <mapper namespace="com.huang.dao.UserMapper">
 
     <sql id="select-user">
-        u_id,u_name,profile,u_sex,u_password,u_phone,u_contactInfo,u_email,u_school,u_major,u_personalInfo,u_identity
+        u_id,u_name,u_image,u_sex,u_password,u_phone,u_contactInfo,u_email,u_school,u_major,u_personalInfo,u_identity
     </sql>
 
     <insert id="register" parameterType="string">
         insert into tb_users (u_name,u_password,u_email)
         values (#{name},#{password},#{email})
     </insert>
+
+<!--    修改用户头像-->
+    <update id="updateImage" parameterType="user">
+        update tb_users set u_image = #{u_image}
+        where u_id = #{u_id}
+    </update>
+
+<!--    判断用户是否已有头像-->
+    <select id="judgeImage" parameterType="int" resultType="int">
+        select t_image
+        from tb_users
+        where u_id = #{uid}
+    </select>
+<!--    删除用户修改前头像-->
+    <delete id="delImage" parameterType="int">
+        update tb_users
+        set u_image = null
+        where u_id=#{uid}
+    </delete>
 
 <!--    判断ID是否可用-->
     <select id="queryUserById" resultType="user">
@@ -30,16 +49,22 @@
         where u_name=#{name}
     </select>
 
-    <!--    判断用户名是否可用-->
+    <!--    判断邮箱是否可用-->
     <select id="judgeEmail" resultType="string">
         select u_email from tb_users
         where u_email=#{email}
     </select>
 
+    <select id="findPwdByEmail" parameterType="string" resultType="string">
+        select u_password
+        from tb_users
+        where u_email=#{email}
+    </select>
+
     <!--    判断用户身份-->
-    <select id="findIdentity" resultType="string">
+    <select id="findIdentity" resultType="int">
         select u_identity from tb_users
-        where u_name=#{name} and u_password=#{password}
+        where u_id=#{uid}
     </select>
 
 <!--    用户登录-->

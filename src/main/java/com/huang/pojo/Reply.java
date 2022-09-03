@@ -13,7 +13,8 @@ import java.util.Date;
 public class Reply {
 
     private int r_id;
-    private int r_vid;
+    private int r_fid;
+    private int r_uid;
     private String r_name;
     private Date r_time;
     private String r_content;

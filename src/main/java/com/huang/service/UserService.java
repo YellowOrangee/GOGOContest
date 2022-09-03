@@ -2,6 +2,7 @@ package com.huang.service;
 
 import com.huang.pojo.Admin;
 import com.huang.pojo.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -16,9 +17,16 @@ public interface UserService {
 
     User Login(String name,String password);
 
-    Admin adminLogin(String name, String password);
+    String findPwdByEmail(String email);
 
-    String findIdentity(String name,String password);
+    //    修改头像
+    int updateImage(User user);
+
+    String judgeImage(int uid);
+
+    String delImage(int uid);
+
+    int findIdentity(int uid);
 
     int updateUserInfo(Map<String,Object> map);
 

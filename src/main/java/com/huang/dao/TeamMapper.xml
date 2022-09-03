@@ -7,63 +7,45 @@
     <sql id="select-team">
         tm_name,tm_captain,tm_ctime,tm_demand,tm_count,tm_status,tm_type
     </sql>
+    <sql id="select-members">
+        m_id,m_name,m_captain,m_member,m_tid,m_mid
+    </sql>
 
-    <insert id="addTeam" parameterType="map">
-        insert into tb_team (tm_name,tm_captain,tm_ctime,tm_demand,tm_count,tm_type,tm_public)
-        values (#{name},#{captain},#{ctime},#{demand},#{count},#{type},#{tPublic})
-    </insert>
 
     <!--    添加队员-->
-    <update id="addMember" parameterType="map">
-        update tb_members set
+    <insert id="addMember" parameterType="map">
+      insert into
+          tb_members(m_tid,m_name,m_captain,m_member)
+      values(#{tid},#{name},#{captain},#{memberName})
+    </insert>
 
-        <choose>
-            <when test="m_member1==null">
-                m_member1=#{memberName},
-            </when>
-            <when test="m_member2==null">
-                m_member1=#{memberName},
-            </when>
-            <when test="m_member3==null">
-                m_member1=#{memberName},
-            </when>
-            <when test="m_member4==null">
-                m_member1=#{memberName},
-            </when>
-            <when test="m_member5==null">
-                m_member1=#{memberName}
-            </when>
-            <otherwise>
-
-            </otherwise>
-        </choose>
-
-        where m_id = #{tid}
-    </update>
+<!--    查询队伍队员-->
+    <select id="judgeFull" resultType="int" parameterType="int">
+        select COUNT(*)
+        from tb_members
+        where m_tid=#{fid}
+    </select>
 
     <!--    判断申请修改队伍信息人的生份-->
-    <select id="judgeIdentity" parameterType="map" resultType="string">
-        select tm_captain from tb_team where tm_id = #{id}
+    <select id="judgeIdentity" parameterType="int" resultType="int">
+        select u_id from tb_forum where f_id = #{fid}
     </select>
 
-    <!--    展示队伍信息-->
-    <select id="showTeamById" resultType="team">
-        select
-        <include refid="select-team"></include>
-        from tb_team
-        where tm_id = #{id}
-    </select>
 
-    <update id="updateTeam" parameterType="team">
-        UPDATE tb_team
-        SET tm_name=#{tm_name},tm_captain=#{tm_captain},tm_demand=#{tm_demand},tm_count=#{tm_count},tm_type=#{tm_type},tm_public=#{tm_public}
-        where tm_id=#{tm_id}
-    </update>
-
+<!--    解散队伍-->
     <delete id="disbandTeam" parameterType="int">
-        DELETE FROM tb_team where tm_id=#{id}
+        DELETE FROM tb_forum where f_id=#{id}
     </delete>
 
+    <delete id="deleteAllMembers" parameterType="int">
+        DELETE FROM tb_members where m_tid=#{id}
+    </delete>
+
+<!--    退出队伍-->
+    <delete id="quiteTeam" parameterType="map">
+        delete from tb_members
+        where m_tid= #{fid} and m_mid = #{mid}
+    </delete>
 
 
 </mapper>

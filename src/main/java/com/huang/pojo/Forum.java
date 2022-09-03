@@ -3,6 +3,7 @@ package com.huang.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -22,6 +23,10 @@ public class Forum {
     private String t_status;
     private String t_type;
     private String t_gname;
+    private String t_image;
+    private int t_gid;
+    private int u_id;
     private int f_replayTime;
     private int f_clickTime;
+
 }

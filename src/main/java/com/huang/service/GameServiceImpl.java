@@ -3,8 +3,8 @@ package com.huang.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.huang.dao.GameMapper;
-import com.huang.pojo.Forum;
 import com.huang.pojo.Game;
+import com.huang.vo.GameConditionVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +13,6 @@ import java.util.List;
 @Transactional
 @Service
 public class GameServiceImpl implements GameService {
-
     private GameMapper gameMapper;
 
     public void setGameMapper(GameMapper gameMapper) {
@@ -31,18 +30,27 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game queryGameByGid(Integer g_id) {
-        return this.gameMapper.queryGameByGid(g_id);
+    public PageInfo<Game> showAllGameS(Integer pageNum) {
+        PageHelper.startPage(pageNum,4);
+        List<Game> games = gameMapper.showAllGame();
+        PageInfo page=new PageInfo(games,5);
+        return page;
     }
+
 
     @Override
     public int queryAdIdByGid(Integer g_id) {
-        return this.gameMapper.queryAdIdByGid(g_id);
+        return gameMapper.queryAdIdByGid(g_id);
     }
 
     @Override
     public int updateGame(Game game) {
-        return gameMapper.updateGame(game);
+        return this.gameMapper.updateGame(game);
+    }
+
+    @Override
+    public Game queryGameByGid(Integer g_id) {
+        return gameMapper.queryGameByGid(g_id);
     }
 
     @Override
@@ -51,16 +59,35 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public PageInfo<Game> showAllGameS(Integer pageNum) {
-        //        开启分页功能
+    public PageInfo<Game> queryGameBySearch(String name,Integer pageNum) {
         PageHelper.startPage(pageNum,4);
-//        获取员工信息
-        List<Game> list= gameMapper.showAllGame();
-//        获取分页相关数据
-        PageInfo<Game> page= new PageInfo<>(list,5);
+
+        List<Game> games = gameMapper.queryGameBySearch(name);
+
+        PageInfo page=new PageInfo(games,5);
+
 
         return page;
     }
 
+    @Override
+    public PageInfo<Game> queryGameByCondition(GameConditionVo gameConditionVo,Integer pageNum) {
+        PageHelper.startPage(pageNum,4);
+
+        List<Game> games = gameMapper.queryGameByCondition(gameConditionVo);
+
+        PageInfo page=new PageInfo(games,5);
+        return page;
+    }
+
+    @Override
+    public List<Integer> queryGidByUid(Integer uid) {
+        return gameMapper.queryGidByUid(uid);
+    }
+
+    @Override
+    public List<Game> queryNameAndSponsor(String keyWords) {
+        return this.gameMapper.queryNameAndSponsor(keyWords);
+    }
 
 }

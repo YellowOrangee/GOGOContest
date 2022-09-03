@@ -43,6 +43,11 @@
         <property name="favoritesMapper" ref="favoritesMapper"/>
     </bean>
 
+    <!--    消息对象注入-->
+    <bean id="MessageServiceImpl" class="com.huang.service.MessageServiceImpl">
+        <property name="messageMapper" ref="messageMapper"/>
+    </bean>
+
 <!--    配置事务管理器-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 <!--        注入数据库连接池-->
@@ -50,10 +55,10 @@
     </bean>
 
     <!--关于拦截器的配置-->
-<!--    <mvc:interceptors>-->
-<!--        <mvc:interceptor>-->
-<!--            <mvc:mapping path="/**"/>-->
-<!--            <bean id="loginInterceptor" class="com.huang.interceptor.LoginInterceptor"/>-->
-<!--        </mvc:interceptor>-->
-<!--    </mvc:interceptors>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean id="loginInterceptor" class="com.huang.interceptor.jwtInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

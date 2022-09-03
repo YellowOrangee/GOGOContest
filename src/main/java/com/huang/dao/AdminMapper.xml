@@ -9,4 +9,10 @@
         select * from tb_admin where ad_name=#{name} and ad_pwd=#{password}
     </select>
 
+    <select id="queryAdminId" parameterType="int" resultType="int">
+        select COUNT(ad_id)
+        from tb_admin
+        where ad_id = #{aid}
+    </select>
+
 </mapper>

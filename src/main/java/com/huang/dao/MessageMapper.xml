@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huang.dao.MessageMapper">
+
+
+    <insert id="creatMessage" parameterType="message">
+        insert into tb_message values (#{m_id},#{m_body},#{m_type},#{m_time},#{m_uid},#{m_xid})
+    </insert>
+
+
+    <select id="showAllMessage" resultType="message">
+        select m_body,m_type,m_time,m_xid
+        from tb_message
+        where m_uid = #{uid}
+    </select>
+
+
+    <select id="showMessageById" resultType="message" parameterType="int">
+        select m_body,m_type,m_time,m_xid from tb_message
+        where m_id = #{m_id}
+    </select>
+</mapper>

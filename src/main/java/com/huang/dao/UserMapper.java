@@ -17,9 +17,10 @@ public interface UserMapper {
     User queryUserByName(@Param("name") String name);
 
 //    判断登录用户身份
-    String findIdentity(@Param("name") String name,@Param("password") String password);
+    int  findIdentity(@Param("uid") int uid);
 
-//    查找用户邮箱
+//    根据邮箱查找密码
+    String findPwdByEmail(@Param("email") String email);
 
 //    用户登录
     User Login(@Param("name") String name,@Param("password") String password);
@@ -29,6 +30,16 @@ public interface UserMapper {
 
 //    修改用户信息
     int updateUserInfo(Map<String,Object> map);
+
+//    修改头像
+    int updateImage(User user);
+
+//    判断用户是否已有头像
+    String judgeImage(@Param("uid") int uid);
+
+//    删除用户修改前的头像
+    String delImage(@Param("uid") int uid);
+
 
     String judgeEmail(@Param("email") String email);
 

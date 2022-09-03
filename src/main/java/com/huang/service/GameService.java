@@ -2,10 +2,9 @@ package com.huang.service;
 
 import com.github.pagehelper.PageInfo;
 import com.huang.pojo.Game;
-import org.apache.ibatis.annotations.Param;
+import com.huang.vo.GameConditionVo;
 
 import java.util.List;
-
 public interface GameService {
     int creatGame(Game game);
 
@@ -20,4 +19,14 @@ public interface GameService {
     int queryUidByGid( Integer id);
 
     PageInfo<Game> showAllGameS(Integer pageNum);
+
+    PageInfo<Game> queryGameBySearch(String name,Integer pageNum);  //通过大赛名模糊查询
+
+
+    PageInfo<Game> queryGameByCondition(GameConditionVo gameConditionVo,Integer pageNum);
+
+    List<Integer> queryGidByUid(Integer uid);
+
+    List<Game> queryNameAndSponsor (String keyWords);
+
 }

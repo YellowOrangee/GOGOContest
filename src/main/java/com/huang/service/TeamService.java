@@ -1,30 +1,27 @@
 package com.huang.service;
 
-import com.github.pagehelper.PageInfo;
-import com.huang.pojo.Team;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
 public interface TeamService {
 
-    //    创建队伍
-    int addTeam(Map<String,Object> map);
-
-    //    添加队员
+    //    添加成员
     int addMember(Map<String,Object> map);
 
-    //    根据队伍ID查询队长名
-    String judgeIdentity(Map<String,Object> map);
+    //判断队伍是否满员
+    int judgeFull( Integer tid);
 
-    //    展示队伍信息
-    Team showTeamById(int id);
-
-    //    提交修改
-    int updateTeam(Team team);
+    //    判断修改队伍请求发起人是否为该队伍队员
+    int judgeIdentity( int fid);
 
     //    解散队伍
-    int disbandTeamS(int id);
+    int disbandTeam(int id);
 
-    PageInfo<Team> showAllTeam(Integer pageNum);
+    //    解散队伍同时清除所有成员
+    int deleteAllMembers(int id);
+
+    //退出队伍
+    int quiteTeam(  Map<String, Object> map);
 
 }

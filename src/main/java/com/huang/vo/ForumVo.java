@@ -14,5 +14,5 @@ public class ForumVo {
     private String eTime;
     private String level;  // 级别
     private String demand; // 要求(学历,参赛经历等)
-//    private String gName; // 要求(队伍参赛名)
+    private String gName; // 要求(队伍参赛名)
 }

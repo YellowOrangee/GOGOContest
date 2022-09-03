@@ -8,6 +8,8 @@ public interface AdminMapper {
 
     Admin adminLogin(@Param("name") String name, @Param("password") String password);
 
+    int queryAdminId(@Param("aid") int aid);
+
 
 
 

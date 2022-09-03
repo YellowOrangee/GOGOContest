@@ -20,4 +20,9 @@ public class AdminServiceImpl implements AdminService{
     public Admin adminLogin(String name, String pwd) {
         return this.adminMapper.adminLogin(name, pwd);
     }
+
+    @Override
+    public int queryAdminId(int aid) {
+        return this.adminMapper.queryAdminId(aid);
+    }
 }

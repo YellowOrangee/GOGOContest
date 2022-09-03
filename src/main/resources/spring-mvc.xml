@@ -44,7 +44,6 @@
         <property name="maxUploadSize" value="10485760"/>
 <!--        <property name="maxInMemorySize" value="40960"/>-->
     </bean>
-
 <!--    扫描web相关的bean-->
     <context:component-scan base-package="com.huang.controller"/>
 </beans>

@@ -7,13 +7,36 @@
 
     <!--    sql片段:输出帖子信息-->
     <sql id="select-forum">
-        f_id,t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_contact,t_public,t_type,t_gname,f_click_time
+        f_id,t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_contact,t_public,t_type,t_gname,f_click_time,u_id,t_image,t_gid
+    </sql>
+    <sql id="select-reply">
+        r_id,r_fid,r_name,r_time,r_content,r_uid
+    </sql>
+
+    <sql id="select-game">
+        g_id,g_title,g_body,g_sponsor,g_type,g_level,g_link,g_sTime,
+        g_eTime,g_signup_sTime,g_signup_eTime,g_image,uid,g_image,g_file
     </sql>
 
     <insert id="PublishRecruitmentInfo" parameterType="forum">
-        insert into tb_forum(t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_public,t_type,t_gname)
-        values(#{t_captain},#{t_name},#{t_ctime},#{t_demand},#{t_count},#{t_contact},#{t_public},#{t_type},#{t_gname})
+        insert into tb_forum(t_captain,t_name,t_ctime,t_demand,t_count,t_contact,t_public,t_type,t_gname,u_id,t_image,t_gid)
+        values(#{t_captain},#{t_name},#{t_ctime},#{t_demand},#{t_count},#{t_contact},
+               #{t_public},#{t_type},#{t_gname},#{u_id},#{t_image},#{t_gid})
     </insert>
+
+    <update id="updatePublishRecruitmentInfo" parameterType="forum">
+        update tb_forum
+        set t_name = #{t_name}, t_demand = #{t_demand}, t_count = #{t_count}, t_contact = #{t_contact},
+            t_public = #{t_public}, t_type = #{t_type}, t_gname = #{t_gname},t_image = #{t_image}
+        where f_id = #{f_id}
+    </update>
+
+    <select id="queryForumById" parameterType="int" resultType="forum">
+        select
+        <include refid="select-forum"></include>
+        from tb_forum
+        where f_id=#{id}
+    </select>
 
     <update id="addClickTime">
         update tb_forum set f_click_time=f_click_time+1 where f_id=#{id}
@@ -26,19 +49,25 @@
     </select>
 
     <insert id="replyForum" parameterType="map">
-        insert into tb_reply (r_fid,r_name,r_time,r_content)
-        values (#{fid},#{name},#{time},#{content})
+        insert into tb_reply (r_fid,r_name,r_time,r_content,r_uid)
+        values (#{fid},#{name},#{time},#{content},#{uid})
     </insert>
 
     <select id="showReply" parameterType="int" resultType="reply">
-        select r_id,r_name,r_time,r_content
+        select <include refid="select-reply"></include>
         from tb_reply
         where r_fid = #{id}
     </select>
 
     <delete id="deleteReply" parameterType="map">
-        delete from tb_reply where r_fid=#{fid} and r_name=#{name}
+        delete from tb_reply where r_id=#{rid} and r_uid = #{uid}
     </delete>
+
+    <select id="judgeDelRepIdentity" parameterType="int" resultType="int">
+        select r_uid
+        from tb_reply
+        where r_id = #{rid}
+    </select>
 
 
 <!--    trim()的作用是去掉首尾的空格，replace()的作用是去掉字符串内部的空格。-->
@@ -46,15 +75,15 @@
         select
         <include refid="select-forum"></include>
         from tb_forum
-        where  concat(t_name,t_demand,t_type) like trim(replace(concat('%',#{keyWords},'%'),' ',''))
+        where  concat(t_name,t_demand,t_type,t_gname) like trim(replace(concat('%',#{keyWords},'%'),' ',''))
     </select>
 
 <!--    在发布招募信息页面展示该用户的队伍信息-->
-    <select id="showTeamByCaptain" parameterType="string" resultType="forum">
+    <select id="showTeamByCaptainId" parameterType="int" resultType="forum">
         select
         <include refid="select-forum"></include>
         from tb_forum
-        where t_captain = #{captain}
+        where u_id = #{id}
     </select>
 
 
@@ -62,24 +91,36 @@
     <select id="showForumByCondition" parameterType="com.huang.vo.ForumVo" resultType="forum">
         select
         <include refid="select-forum"></include>
+        from tb_forum
         <where>
-        <!--  招募贴队伍参赛级别条件判断  null:条件框未选择条件, ' ':条件框中输入空白-->
-               <if test="level !=null and level !=' '">
-                    and t_type like trim(replace(#{level},' ',''))
+               <if test="level !=null">
+                    and t_level
                </if>
                <!-- 队伍需求条件判断-->
-               <if test="demand !=null and demand !=' '">
+               <if test="demand !=null">
                    and t_demand like trim(replace(contat('%',#{demand},'%'),' ',''))
                </if>
                <!-- 用户只选择了报名起始时间,没选择报名终止时间 -->
-               <if test="(sTime !=null and sTime !=' ') and (eTime ==null or eTime ==' ')">
+               <if test="(sTime !=null">
                    and t_ctime >= {sTime}
                </if>
-            <if test="(sTime ==null and sTime ==' ') and (eTime !=null or eTime !=' ')">
+            <if test="eTime !=null">
                 and t_ctime >= {sTime}
             </if>
-               concat(t_name,t_demand,t_type) like
         </where>
+    </select>
+
+
+    <select id="queryUidByFid" parameterType="int" resultType="int">
+        select uid
+        from tb_forum
+        where f_id = #{fid}
+    </select>
+
+    <select id="jumpToGameById" parameterType="int" resultType="game">
+        select <include refid="select-game"/>
+        from tb_game
+        where g_id=#{gid}
     </select>
 
 

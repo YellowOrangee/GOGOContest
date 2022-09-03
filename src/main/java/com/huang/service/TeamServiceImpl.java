@@ -23,43 +23,34 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public int addTeam(Map<String, Object> map) {
-        return this.teamMapper.addTeam(map);
-    }
-
-    @Override
     public int addMember(Map<String, Object> map) {
         return teamMapper.addMember(map);
     }
 
     @Override
-    public String judgeIdentity(Map<String, Object> map) {
-        return this.teamMapper.judgeIdentity(map);
+    public int judgeFull(Integer tid) {
+        return this.teamMapper.judgeFull(tid);
     }
 
     @Override
-    public Team showTeamById(int id) {
-        return this.teamMapper.showTeamById(id);
+    public int judgeIdentity(int fid) {
+        return this.teamMapper.judgeIdentity(fid);
     }
 
-    @Override
-    public int updateTeam(Team team) {
-        return this.teamMapper.updateTeam(team);
-    }
 
     @Override
-    public int disbandTeamS(int id) {
+    public int disbandTeam(int id) {
         return this.teamMapper.disbandTeam(id);
     }
 
     @Override
-    public PageInfo<Team> showAllTeam(Integer pageNum) {
-//        开启分页功能
-        PageHelper.startPage(pageNum,4);
-//        获取队伍信息
-        List<Team> list =teamMapper.showAllTeam();
-//        获取分页相关数据 navigatePages为导航页数量 1 2 (3) 4 5
-        PageInfo<Team> page = new PageInfo<>(list,5);
-        return page;
+    public int deleteAllMembers(int id) {
+        return this.teamMapper.deleteAllMembers(id);
     }
+
+    @Override
+    public int quiteTeam (Map<String, Object> map) {
+        return this.teamMapper.quiteTeam(map);
+    }
+
 }
