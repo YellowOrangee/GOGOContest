@@ -73,7 +73,7 @@ export const addCollect = ()=>Service({url:`/game/addCollect`,method:'post'})
 export const cancelCollect = ()=>Service({url:"/game/cancelCollect",method:"post"})
 //按分页搜索比赛
 //  /game/queryGameByName/page get 参数 pageNum
-export const searchByPage = (page)=>Service({url:`/game/queryGameByName/page?pageNum=${page}`,method:"get"})
+export const searchByPage = (data)=>Service({url:`/game/queryGameByName/page?name=${data}`+`&pageNum=1`,method:"get"})
 //按类型级别时间搜索比赛
 //   /game/queryGameByCondition/page get 参数 {g_signup_sTime g_signup_eTime g_type g_level}
 export const searchByCondition = (data)=>Service({url:`/game/queryGameByCondition/page?g_signup_sTime=${data.sTime}`+`&g_signup_eTime=${data.eTime}`+`&g_type=${data.type}`+`&g_level=${data.grade}`})

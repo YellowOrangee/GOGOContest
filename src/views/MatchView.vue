@@ -55,7 +55,7 @@
             <div>
               <el-dropdown @command="handleCommand1" size="small" split-button type="primary">
                 <span class="el-dropdown-link">
-                  {{ type ? type : "比赛竞赛" }}
+                  {{ type ? type : "比赛类型" }}
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="全部">全部</el-dropdown-item>
@@ -73,7 +73,7 @@
             <div>
               <el-dropdown @command="handleCommand2" size="small" split-button type="primary">
                 <span class="el-dropdown-link">
-                  {{ grade?grade:"比赛类别"}}
+                  {{ grade?grade:"比赛级别"}}
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="全部">全部</el-dropdown-item>
@@ -182,9 +182,9 @@ export default {
     //按类型级别时间搜索
     async search1(){
       const {sTime,eTime} = this.$data.time;
-      // const {type,grade} = this;
+      const {type,grade} = this;
       // searchByCondition({sTime,eTime,type,grade});
-      this.$store.dispatch("getMatchListByCondition",{sTime,eTime,type:"yes",grade:"yes"});
+      this.$store.dispatch("getMatchListByCondition",{sTime,eTime,type,grade});
       this.$data.list = this.$store.state.match.list;
     },
     //搜索
@@ -227,6 +227,7 @@ export default {
     },
   },
   mounted() {
+
     this.upMatchData(1); // 加载第一页的队伍列表
   },
 };

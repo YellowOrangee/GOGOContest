@@ -17,14 +17,14 @@ const actions = {
         console.log(data)
         let result = await searchByCondition(data);
         console.log(result)
-    commit('GETMATCHLIST',result[0])
+    commit('GETMATCHLIST',JSON.parse(result).list)
     },
-    //根据页码搜索比赛
+    //根据输入框搜索比赛
     async getMatchListByPage({commit},data){
         console.log(data)
         let result = await searchByPage(data);
-        console.log(result)
-    commit('GETMATCHLIST',result[0])
+        console.log(1,JSON.parse(result))
+    commit('GETMATCHLIST',JSON.parse(result).list)
     },
 };
 const getters = {};
