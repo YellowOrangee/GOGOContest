@@ -95,14 +95,12 @@
                   <el-upload
                       class="avatar-uploader"
                       drag
-                      :auto-upload="false"
+                      :auto-upload="true"
                       ref="uploadImg"
                       :action="action"
-                      :limit=1
-                      :on-success="uploadSuccess"
-                      :on-error="uploadError"
+                      :show-file-list="false"
+                      :http-request="uploadAction"
                       :on-change="beforeAvatarUpload"
-                      :on-exceed="imgBeyond"
                       style="text-align: left;">
                     <el-image v-if="imageUrl" :src="imageUrl" class="avatar" fit="cover"></el-image>
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -214,6 +212,8 @@
 </template>
 
 <script>
+import {releaseTeam} from "@/api/index";
+import {queryMatch} from "@/api/index";
 export default {
   name: "ReleaseTeam",
   data() {
@@ -231,6 +231,8 @@ export default {
       gameItem:[],
       // 队伍名称格式正确显示的图标
       teamNameIcon:false,
+      // 上传图片校验
+      checkImg:false,
       // 照片上传的地址
       action:"",
       // 照片的url
@@ -238,8 +240,8 @@ export default {
       // 表格
       releaseForm:{
         // 比赛信息表
-        options: [],
-        game1: [],
+        options: [],  // 根据选择框搜索显示的选项
+        game1: [],    // 第一个比赛
         list: [],
         loading: false,
         // 从服务器获取到的选项
@@ -249,9 +251,12 @@ export default {
         ],
         // 队伍信息表
         teamName: '',  //队伍名
-        teamIntro: '',//队伍简介
+        teamIntro: '',//队伍简介（需求）
         memberNum: 1,  //人数
-        teamPhone: '',  //联系方式
+        teamType:'',    //参数类型
+        teamPublic:false,    //是否公开
+        teamPhone: '',  //队长联系方式
+        imgFile:'',    //队伍图片
         date:'',  //发帖时间
       },
       rules:{
@@ -315,6 +320,11 @@ export default {
         this.releaseForm.loading = true;
         setTimeout(() => {
           this.releaseForm.loading = false;
+          var pageNum = 1;
+          queryMatch(query,pageNum).then(res=>{
+            res=JSON.parse(res);
+            console.log(query,res);
+          })
           this.releaseForm.options = this.releaseForm.list.filter(item => {
             return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
           });
@@ -332,15 +342,27 @@ export default {
     },
     // 上传照片失败
     uploadError(res,file){
+      this.releaseForm.imgFile=file;
+      console.log("imgFile",this.releaseForm.imgFile);
       console.log('上传失败',file);
       this.imageUrl = URL.createObjectURL(file.raw);
       this.$message.error('上传失败');
     },
+    // 上传图片
+    uploadAction(data){
+      if(this.checkImg){
+        this.releaseForm.imgFile=data;
+        console.log(this.releaseForm.imgFile);
+      }
+      else{
+        console.log("校验未通过");
+      }
+    },
     // 上传照片前确认格式
     beforeAvatarUpload(file) {
-      console.log(file);
+      console.log("确认格式",file);
       const isIMG = /image\/\w+/.test(file.raw.type)  // file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.raw.size / 1024 / 1024 < 2;
       if (!isIMG) {
         this.$message.error('只能传图片！');
       } else if (!isLt2M) {
@@ -348,23 +370,27 @@ export default {
       } else{
         this.imageUrl = URL.createObjectURL(file.raw);
       }
+      this.checkImg=isIMG&isLt2M;
       return isIMG && isLt2M;
-    },
-    // 上传图片数量超出
-    imgBeyond(files, fileList){
-      console.log('files',files);
-      console.log('fileList',fileList);
     },
     // 组队人数改变时调用（目前没用，可删）
     memberNumChange(value) {
       console.log('队伍人数：'+value);
     },
+    // 发布该招募信息
     submitForm() {
       this.$refs['releaseForm'].validate((valid) => {
         if (valid) {
-          this.$refs.uploadImg.submit();  // 上传图片
-          this.$message({message:"发布成功",type: "success",});
-          this.$refs["releaseForm"].resetFields();  // 清空表单
+          this.teamPublic=true;   // 发布类型为公开
+          releaseTeam(this.$data.releaseForm).then((res) => {
+            console.log("发布该招募信息", res);
+            if (res.state==200) {
+              this.$message({message:res.msg,type: "success",});  // 登录成功
+              this.$refs["releaseForm"].resetFields();  // 清空表单
+            } else {
+              this.$message({message:res.msg,type: "error",});
+            }
+          });
         } else {
           this.$message({message:"必填项不能为空",type: "error",});
           return false;
@@ -375,7 +401,7 @@ export default {
     saveForm() {
       this.$refs['releaseForm'].validate((valid) => {
         if (valid) {
-          this.$refs.uploadImg.submit();  // 上传图片
+          this.teamPublic=false;   // 发布类型为不公开
           this.$message({message:"保存成功",type: "success",});
           this.$refs["releaseForm"].resetFields();  // 清空表单
         } else {

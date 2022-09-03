@@ -137,9 +137,14 @@
               <div class="main1">
                 <span>{{item.t_name}}</span>
                 <div class="content">
-                  队长：{{item.t_captain}}，队伍需求：{{item.t_demand}}
-                  <br><br>
-                  创建时间：{{item.t_ctime}}，参赛类型：{{item.t_type}}
+                  <b>比赛：</b>{{item.t_gname}}
+                  <br>
+                  <b>队长：</b>{{item.t_captain}}
+                  <br>
+                  <b>队伍需求：</b>{{item.t_demand}}
+                  <br>
+                  <b>类型：</b>{{item.t_type}}
+                  <b class="team_small_title">创建时间：</b>{{item.t_ctime}}
                 </div>
                 </div>
             </div>
@@ -289,7 +294,7 @@ export default {
   padding: 0 20px ;
 }
 .content{
-  padding-top: 14px;
+  padding-top: 7px;
   width: 573px;
   height: 64px;
   color: rgba(144, 147, 153, 100);
@@ -299,6 +304,9 @@ export default {
 }
 #teamList{
   cursor: pointer;
+}
+.team_small_title{
+  padding-left: 20px;
 }
 </style>
 
