@@ -213,7 +213,7 @@
 
 <script>
 import {releaseTeam} from "@/api/index";
-import {queryMatch} from "@/api/index";
+import {queryMatchForTeam} from "@/api/index";
 export default {
   name: "ReleaseTeam",
   data() {
@@ -227,7 +227,7 @@ export default {
       }
     };
     return {
-      // 比赛选择框（从第二个开始）
+      // 比赛选择框（从第二个开始）[ { "value": "game2" }, { "value": "game3" }]
       gameItem:[],
       // 队伍名称格式正确显示的图标
       teamNameIcon:false,
@@ -235,29 +235,23 @@ export default {
       checkImg:false,
       // 照片上传的地址
       action:"",
-      // 照片的url
+      // 显示照片的url
       imageUrl: '',
       // 表格
       releaseForm:{
         // 比赛信息表
         options: [],  // 根据选择框搜索显示的选项
-        game1: [],    // 第一个比赛
-        list: [],
+        game1: {},    // 第一个比赛(第二个是game2:[])
+        list: [],     // 从服务器返回后处理好的所有的选项
         loading: false,
-        // 从服务器获取到的选项
-        states: ["1", "2", "3","4", "California", "Colorado",
-          "Connecticut", "Delaware", "Florida",
-          "Georgia", "Hawaii", "Idaho", "Illinois"
-        ],
         // 队伍信息表
         teamName: '',  //队伍名
         teamIntro: '',//队伍简介（需求）
         memberNum: 1,  //人数
-        teamType:'',    //参数类型
+        teamType:' ',    //参赛类型
         teamPublic:false,    //是否公开
         teamPhone: '',  //队长联系方式
         imgFile:'',    //队伍图片
-        date:'',  //发帖时间
       },
       rules:{
         teamName: [
@@ -320,11 +314,6 @@ export default {
         this.releaseForm.loading = true;
         setTimeout(() => {
           this.releaseForm.loading = false;
-          var pageNum = 1;
-          queryMatch(query,pageNum).then(res=>{
-            res=JSON.parse(res);
-            console.log(query,res);
-          })
           this.releaseForm.options = this.releaseForm.list.filter(item => {
             return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
           });
@@ -333,26 +322,12 @@ export default {
         this.releaseForm.options = [];
       }
     },
-    // http-request可覆盖默认上传行为，使用方法百度elementui http-request
-    // 上传照片成功
-    uploadSuccess(res, file) {
-      console.log('上传成功',file);
-      this.imageUrl = URL.createObjectURL(file.raw);
-      this.$message.error('上传成功');
-    },
-    // 上传照片失败
-    uploadError(res,file){
-      this.releaseForm.imgFile=file;
-      console.log("imgFile",this.releaseForm.imgFile);
-      console.log('上传失败',file);
-      this.imageUrl = URL.createObjectURL(file.raw);
-      this.$message.error('上传失败');
-    },
+    // http-request可覆盖默认上传行为
     // 上传图片
     uploadAction(data){
       if(this.checkImg){
         this.releaseForm.imgFile=data;
-        console.log(this.releaseForm.imgFile);
+        console.log("上传的图片",this.releaseForm.imgFile);
       }
       else{
         console.log("校验未通过");
@@ -361,7 +336,7 @@ export default {
     // 上传照片前确认格式
     beforeAvatarUpload(file) {
       console.log("确认格式",file);
-      const isIMG = /image\/\w+/.test(file.raw.type)  // file.type === 'image/jpeg';
+      const isIMG = /image\/\w+/.test(file.raw.type)  // file.type === 'image';
       const isLt2M = file.raw.size / 1024 / 1024 < 2;
       if (!isIMG) {
         this.$message.error('只能传图片！');
@@ -381,13 +356,15 @@ export default {
     submitForm() {
       this.$refs['releaseForm'].validate((valid) => {
         if (valid) {
+          this.releaseForm.game1=JSON.parse(this.releaseForm.game1);  // 将参加比赛的value转换成对象
           this.teamPublic=true;   // 发布类型为公开
           releaseTeam(this.$data.releaseForm).then((res) => {
             console.log("发布该招募信息", res);
             if (res.state==200) {
-              this.$message({message:res.msg,type: "success",});  // 登录成功
+              this.$message({message:res.msg,type: "success",});
               this.$refs["releaseForm"].resetFields();  // 清空表单
             } else {
+              console.log("发布该招募信息错误",res);
               this.$message({message:res.msg,type: "error",});
             }
           });
@@ -410,29 +387,18 @@ export default {
         }
       });
     },
-    //显示时间函数
-    saytime(){
-      var myTime = new Date();
-      var y=myTime.getFullYear();
-      var m=myTime.getMonth()+1;
-      var d=myTime.getDate();
-      var hh = myTime.getHours();
-      var mm = myTime.getMinutes();
-      if (mm < 10) mm = '0' + mm;
-      var ss = myTime.getSeconds();
-      if (ss < 10) ss = '0' + ss;
-      this.releaseForm.date =y+'-'+m+'-'+d+' '+hh + ':' + mm + ':' + ss;
-      setTimeout(this.saytime, 1000); //设置计时器定期调用自身
-    },
   },
   mounted() {
-    this.releaseForm.list = this.releaseForm.states.map(item => {
-      return {
-        value: `${item}`,
-        label: `${item}`
-      };
-    });
-    this.saytime();
+    queryMatchForTeam(' ').then(res=>{
+      res=JSON.parse(res);
+      console.log("搜索返回",res);
+      this.releaseForm.list = res.map(item => {
+        return {
+          value: `{"name":"${item.g_title}","id":"${item.g_id}"}`,
+          label: `${item.g_title}，举办方：${item.g_sponsor}`
+        };
+      });
+    })
   },
 }
 </script>
